@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Conversión — Programa CTC</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --green-950: #0B2419;
+    --green-900: #0F3524;
+    --green-800: #155230;
+    --green-700: #1B6E3E;
+    --green-600: #228B4E;
+    --green-500: #2EA661;
+    --green-400: #4DC47D;
+    --green-300: #7DD9A0;
+    --green-200: #B0EBCA;
+    --green-100: #DFFAEB;
+    --green-50:  #F2FDF7;
+    --gold-600:  #C89B2A;
+    --gold-400:  #E5B945;
+    --gold-200:  #F5DFA0;
+    --gold-100:  #FBF2D4;
+    --red-500:   #D94F4F;
+    --red-100:   #FDEAEA;
+    --gray-900:  #1A1D1B;
+    --gray-700:  #3A3E3C;
+    --gray-500:  #6B7169;
+    --gray-300:  #B8BDB9;
+    --gray-100:  #ECEEED;
+    --gray-50:   #F6F7F6;
+    --white:     #FFFFFF;
+    --font-main: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  body {
+    font-family: var(--font-main);
+    background: var(--gray-50);
+    color: var(--gray-900);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green-900);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--green-800);
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: var(--green-500);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .logo-mark svg { width: 18px; height: 18px; }
+  .logo-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--green-200);
+    letter-spacing: 0.03em;
+  }
+  .logo-text span {
+    display: block;
+    font-size: 11px;
+    font-weight: 300;
+    color: var(--green-400);
+    letter-spacing: 0.06em;
+  }
+  .header-badge {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--gold-400);
+    background: rgba(229, 185, 69, 0.12);
+    border: 1px solid rgba(229, 185, 69, 0.25);
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green-900);
+    padding: 3.5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(46,166,97,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green-400);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.25;
+    margin-bottom: 1rem;
+    max-width: 620px;
+    margin-inline: auto;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--green-400);
+  }
+  .hero-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--green-200);
+    max-width: 480px;
+    margin: 0 auto 2rem;
+    line-height: 1.7;
+  }
+  .species-chips {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--green-300);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 5px 14px;
+    border-radius: 20px;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  /* ── TABS ── */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-card);
+  }
+  .tab-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-main);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-500);
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .tab-btn .tab-icon { font-size: 18px; }
+  .tab-btn:hover { background: var(--gray-50); color: var(--gray-700); }
+  .tab-btn.active {
+    background: var(--green-900);
+    color: var(--white);
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--white);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow-card);
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gray-500);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-title::before {
+    content: '';
+    width: 3px;
+    height: 14px;
+    background: var(--green-500);
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  /* ── GRID INPUTS ── */
+  .input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .field label {
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 400;
+  }
+  .field input {
+    font-family: var(--font-main);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    border: 1.5px solid var(--gray-100);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    width: 100%;
+    transition: border-color 0.15s;
+    outline: none;
+  }
+  .field input:focus {
+    border-color: var(--green-500);
+    background: var(--white);
+  }
+
+  /* ── METRICS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .metrics-grid { grid-template-columns: 1fr; } }
+  .metric-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-100);
+    border-radius: var(--radius-md);
+    padding: 1.1rem 1.25rem;
+  }
+  .metric-card.primary { background: var(--green-900); border-color: var(--green-800); }
+  .metric-label {
+    font-size: 12px;
+    color: var(--gray-500);
+    margin-bottom: 6px;
+    line-height: 1.4;
+  }
+  .metric-card.primary .metric-label { color: var(--green-300); }
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--gray-900);
+    line-height: 1;
+  }
+  .metric-card.primary .metric-value { color: var(--green-400); font-size: 26px; }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--gray-300);
+    margin-top: 4px;
+  }
+  .metric-card.primary .metric-sub { color: var(--green-600); }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  thead th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray-500);
+    letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  tbody td {
+    padding: 11px 14px;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-100);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover td { background: var(--gray-50); }
+  tbody tr.highlight td {
+    background: var(--green-50);
+    color: var(--green-800);
+    font-weight: 500;
+  }
+  tbody tr.highlight td:first-child::after {
+    content: ' ← actual';
+    font-size: 10px;
+    color: var(--green-500);
+    font-family: var(--font-main);
+  }
+
+  /* ── INSIGHT ── */
+  .insight-box {
+    background: var(--green-50);
+    border: 1px solid var(--green-200);
+    border-radius: var(--radius-md);
+    padding: 1.1rem 1.25rem;
+    font-size: 14px;
+    color: var(--green-900);
+    line-height: 1.7;
+    margin-top: 1.25rem;
+  }
+  .insight-box strong { color: var(--green-700); }
+
+  /* ── FORMULA BOX ── */
+  .formula-box {
+    background: var(--gray-900);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .formula-title { font-size: 11px; color: var(--gray-300); letter-spacing: 0.08em; margin-bottom: 8px; text-transform: uppercase; }
+  .formula-text {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--green-400);
+    line-height: 1.9;
+  }
+  .formula-text span { color: var(--gray-300); }
+
+  /* ── SECTION HIDDEN ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--gray-100); margin: 1.5rem 0; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px;
+    color: var(--gray-300);
+    border-top: 1px solid var(--gray-100);
+  }
+  footer strong { color: var(--gray-500); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-mark">
+        <svg viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 2L14 5.5V12.5L9 16L4 12.5V5.5L9 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+          <path d="M9 7V11M7 9H11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="logo-text">
+        Programa CTC
+        <span>Análisis técnico-económico</span>
+      </div>
+    </div>
+    <div class="header-badge">Módulo 1 — Fundamentos</div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Herramienta de análisis</div>
+  <h1>Calculadora del costo de un<br><em>punto de conversión</em></h1>
+  <p class="hero-sub">Cuantifica en dinero real el impacto de cada punto de conversión alimenticia en tu ciclo productivo.</p>
+  <div class="species-chips">
+    <span class="chip">Pollos de engorde</span>
+    <span class="chip">Cerdos en ceba</span>
+    <span class="chip">Sitio 3 — porcinos</span>
+    <span class="chip">Módulo 1 CTC</span>
+  </div>
+</div>
+
+<main>
+
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('pollo', this)">
+      <span class="tab-icon">🐔</span> Pollos de engorde
+    </button>
+    <button class="tab-btn" onclick="switchTab('cerdo', this)">
+      <span class="tab-icon">🐷</span> Cerdos en ceba
+    </button>
+  </div>
+
+  <!-- ══ POLLOS ══ -->
+  <div class="section active" id="sec-pollo">
+
+    <div class="card">
+      <div class="card-title">Datos del lote</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Aves alojadas</label>
+          <input type="number" id="p-aves" value="20000" min="1" oninput="calc('pollo')">
+        </div>
+        <div class="field">
+          <label>Peso promedio al sacrificio (kg)</label>
+          <input type="number" id="p-peso" value="2.50" min="0.1" step="0.05" oninput="calc('pollo')">
+        </div>
+        <div class="field">
+          <label>Conversión alimenticia actual (CA)</label>
+          <input type="number" id="p-ca" value="1.92" min="1.00" step="0.01" oninput="calc('pollo')">
+        </div>
+        <div class="field">
+          <label>Precio del alimento ($ / kg)</label>
+          <input type="number" id="p-precio" value="0.48" min="0.01" step="0.01" oninput="calc('pollo')">
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-title">Fórmula aplicada</div>
+        <div class="formula-text">
+          Consumo total <span>=</span> Aves × Peso sacrificio × CA<br>
+          Alimento / punto <span>=</span> Aves × Peso × 0.01<br>
+          Costo del punto <span>=</span> Alimento / punto × Precio kg
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Resultado del ciclo</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Consumo total de alimento</div>
+          <div class="metric-value" id="p-consumo">—</div>
+          <div class="metric-sub">kg en el ciclo</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Alimento ahorrado por 1 punto</div>
+          <div class="metric-value" id="p-ahorro-kg">—</div>
+          <div class="metric-sub">kg por cada 0.01 de CA</div>
+        </div>
+        <div class="metric-card primary">
+          <div class="metric-label">Costo de 1 punto de conversión</div>
+          <div class="metric-value" id="p-costo-punto">—</div>
+          <div class="metric-sub">valor real por ciclo</div>
+        </div>
+      </div>
+
+      <div class="insight-box" id="p-insight"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tabla de sensibilidad — impacto acumulado</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>CA objetivo</th>
+              <th>Puntos de mejora</th>
+              <th>Alimento ahorrado</th>
+              <th>Ahorro total</th>
+            </tr>
+          </thead>
+          <tbody id="p-tabla"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══ CERDOS ══ -->
+  <div class="section" id="sec-cerdo">
+
+    <div class="card">
+      <div class="card-title">Datos del lote</div>
+      <div class="input-grid">
+        <div class="field">
+          <label>Cerdos en ceba</label>
+          <input type="number" id="c-cerdos" value="500" min="1" oninput="calc('cerdo')">
+        </div>
+        <div class="field">
+          <label>Peso entrada sitio 3 (kg)</label>
+          <input type="number" id="c-entrada" value="25" min="1" step="0.5" oninput="calc('cerdo')">
+        </div>
+        <div class="field">
+          <label>Peso de salida / mercado (kg)</label>
+          <input type="number" id="c-salida" value="105" min="1" step="0.5" oninput="calc('cerdo')">
+        </div>
+        <div class="field">
+          <label>Conversión alimenticia actual (CA)</label>
+          <input type="number" id="c-ca" value="2.65" min="1" step="0.01" oninput="calc('cerdo')">
+        </div>
+        <div class="field">
+          <label>Precio del alimento ($ / kg)</label>
+          <input type="number" id="c-precio" value="0.52" min="0.01" step="0.01" oninput="calc('cerdo')">
+        </div>
+      </div>
+
+      <div class="formula-box">
+        <div class="formula-title">Fórmula aplicada</div>
+        <div class="formula-text">
+          Ganancia por animal <span>=</span> Peso salida − Peso entrada<br>
+          Consumo total <span>=</span> Cerdos × Ganancia × CA<br>
+          Costo del punto <span>=</span> Cerdos × Ganancia × 0.01 × Precio kg
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Resultado del ciclo</div>
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">Consumo total de alimento</div>
+          <div class="metric-value" id="c-consumo">—</div>
+          <div class="metric-sub">kg en el ciclo</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Alimento ahorrado por 1 punto</div>
+          <div class="metric-value" id="c-ahorro-kg">—</div>
+          <div class="metric-sub">kg por cada 0.01 de CA</div>
+        </div>
+        <div class="metric-card primary">
+          <div class="metric-label">Costo de 1 punto de conversión</div>
+          <div class="metric-value" id="c-costo-punto">—</div>
+          <div class="metric-sub">valor real por ciclo</div>
+        </div>
+      </div>
+
+      <div class="insight-box" id="c-insight"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tabla de sensibilidad — impacto acumulado</div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>CA objetivo</th>
+              <th>Puntos de mejora</th>
+              <th>Alimento ahorrado</th>
+              <th>Ahorro total</th>
+            </tr>
+          </thead>
+          <tbody id="c-tabla"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <strong>Programa de Capacitación CTC</strong> — Análisis técnico-económico en producción animal<br>
+  Módulo 1: Fundamentos financieros y contables · Herramienta de uso interno
+</footer>
+
+<script>
+  function fmt(n) {
+    return Math.round(n).toLocaleString('es');
+  }
+  function fmtD(n) {
+    return '$ ' + n.toLocaleString('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function switchTab(sp, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('sec-' + sp).classList.add('active');
+    calc(sp);
+  }
+
+  function calc(sp) {
+    if (sp === 'pollo') {
+      const aves   = parseFloat(document.getElementById('p-aves').value)   || 0;
+      const peso   = parseFloat(document.getElementById('p-peso').value)   || 0;
+      const ca     = parseFloat(document.getElementById('p-ca').value)     || 0;
+      const precio = parseFloat(document.getElementById('p-precio').value) || 0;
+
+      const consumo    = aves * peso * ca;
+      const ahorroKg   = aves * peso * 0.01;
+      const costoPunto = ahorroKg * precio;
+
+      document.getElementById('p-consumo').textContent    = fmt(consumo) + ' kg';
+      document.getElementById('p-ahorro-kg').textContent  = fmt(ahorroKg) + ' kg';
+      document.getElementById('p-costo-punto').textContent = fmtD(costoPunto);
+
+      const steps = [0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30];
+      let rows = '';
+      steps.forEach(d => {
+        const obj    = (ca - d).toFixed(2);
+        const puntos = Math.round(d / 0.01);
+        const kg     = fmt(aves * peso * d);
+        const ahorro = fmtD(aves * peso * d * precio);
+        const isCur  = d === 0.01;
+        rows += `<tr${isCur ? ' class="highlight"' : ''}>
+          <td>${obj}</td>
+          <td>${puntos} ${puntos === 1 ? 'punto' : 'puntos'}</td>
+          <td>${kg} kg</td>
+          <td>${ahorro}</td>
+        </tr>`;
+      });
+      document.getElementById('p-tabla').innerHTML = rows;
+
+      document.getElementById('p-insight').innerHTML =
+        `En este lote de <strong>${fmt(aves)} aves</strong>, cada punto de conversión equivale a <strong>${fmtD(costoPunto)}</strong> en alimento. Cualquier inversión en manejo, sanidad o nutrición que cueste menos que esa cifra y mejore al menos un punto de CA <strong>se paga sola y genera ahorro neto por ciclo</strong>.`;
+
+    } else {
+      const cerdos = parseFloat(document.getElementById('c-cerdos').value)  || 0;
+      const ent    = parseFloat(document.getElementById('c-entrada').value)  || 0;
+      const sal    = parseFloat(document.getElementById('c-salida').value)   || 0;
+      const ca     = parseFloat(document.getElementById('c-ca').value)      || 0;
+      const precio = parseFloat(document.getElementById('c-precio').value)  || 0;
+
+      const gan        = sal - ent;
+      const consumo    = cerdos * gan * ca;
+      const ahorroKg   = cerdos * gan * 0.01;
+      const costoPunto = ahorroKg * precio;
+
+      document.getElementById('c-consumo').textContent     = fmt(consumo) + ' kg';
+      document.getElementById('c-ahorro-kg').textContent   = fmt(ahorroKg) + ' kg';
+      document.getElementById('c-costo-punto').textContent = fmtD(costoPunto);
+
+      const steps = [0.01, 0.05, 0.10, 0.15, 0.20, 0.25, 0.35];
+      let rows = '';
+      steps.forEach(d => {
+        const obj    = (ca - d).toFixed(2);
+        const puntos = Math.round(d / 0.01);
+        const kg     = fmt(cerdos * gan * d);
+        const ahorro = fmtD(cerdos * gan * d * precio);
+        const isCur  = d === 0.01;
+        rows += `<tr${isCur ? ' class="highlight"' : ''}>
+          <td>${obj}</td>
+          <td>${puntos} ${puntos === 1 ? 'punto' : 'puntos'}</td>
+          <td>${kg} kg</td>
+          <td>${ahorro}</td>
+        </tr>`;
+      });
+      document.getElementById('c-tabla').innerHTML = rows;
+
+      document.getElementById('c-insight').innerHTML =
+        `Con <strong>${fmt(cerdos)} cerdos</strong> y una ganancia de <strong>${gan.toFixed(1)} kg/animal</strong>, cada punto de conversión vale <strong>${fmtD(costoPunto)}</strong>. Mejorar de CA ${ca.toFixed(2)} a ${(ca - 0.10).toFixed(2)} representa un ahorro de <strong>${fmtD(cerdos * gan * 0.10 * precio)}</strong> por ciclo, solo en alimento.`;
+    }
+  }
+
+  calc('pollo');
+</script>
+</body>
+</html>
