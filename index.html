@@ -3,561 +3,584 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Conversión — Programa CTC</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Calculadora CTC — Produccion Animal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --green-900: #0F3524; --green-800: #155230; --green-700: #1B6E3E;
-    --green-600: #228B4E; --green-500: #2EA661; --green-400: #4DC47D;
-    --green-300: #7DD9A0; --green-200: #B0EBCA; --green-100: #DFFAEB; --green-50: #F2FDF7;
-    --gold-400: #E5B945; --gold-200: #F5DFA0;
-    --blue-900: #0D2B4A; --blue-600: #1A6DA0; --blue-400: #4A9FD4;
-    --blue-200: #A8D4EE; --blue-100: #D6EDF9; --blue-50: #EEF7FD;
-    --red-600: #C0392B; --red-100: #FDEAEA; --red-50: #FEF5F5;
-    --gray-900: #1A1D1B; --gray-700: #3A3E3C; --gray-500: #6B7169;
-    --gray-300: #B8BDB9; --gray-100: #ECEEED; --gray-50: #F6F7F6; --white: #FFFFFF;
-    --font-main: 'DM Sans', sans-serif; --font-mono: 'DM Mono', monospace;
-    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
-  }
-  body { font-family: var(--font-main); background: var(--gray-50); color: var(--gray-900); min-height: 100vh; line-height: 1.6; }
-
-  /* HEADER */
-  header { background: var(--green-900); padding: 0 2rem; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--green-800); }
-  .header-inner { max-width: 980px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .logo { display: flex; align-items: center; gap: 10px; }
-  .logo-mark { width: 32px; height: 32px; background: var(--green-500); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
-  .logo-mark svg { width: 18px; height: 18px; }
-  .logo-text { font-size: 13px; font-weight: 500; color: var(--green-200); letter-spacing: 0.03em; }
-  .logo-text span { display: block; font-size: 11px; font-weight: 300; color: var(--green-400); letter-spacing: 0.06em; }
-  .header-badge { font-size: 11px; font-weight: 500; color: var(--gold-400); background: rgba(229,185,69,0.12); border: 1px solid rgba(229,185,69,0.25); padding: 4px 12px; border-radius: 20px; }
-
-  /* HERO */
-  .hero { background: var(--green-900); padding: 3rem 2rem 3.5rem; text-align: center; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(46,166,97,0.18) 0%, transparent 70%); pointer-events: none; }
-  .hero-eyebrow { font-size: 11px; font-weight: 500; color: var(--green-400); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.75rem; }
-  .hero h1 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 600; color: var(--white); line-height: 1.25; margin-bottom: 0.75rem; max-width: 680px; margin-inline: auto; }
-  .hero h1 em { font-style: normal; color: var(--green-400); }
-  .hero-sub { font-size: 14px; font-weight: 300; color: var(--green-200); max-width: 520px; margin: 0 auto 1.5rem; line-height: 1.7; }
-  .species-chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-  .chip { font-size: 12px; color: var(--green-300); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 4px 12px; border-radius: 20px; }
-
-  /* MAIN */
-  main { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
-
-  /* TABS */
-  .tab-bar { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 4px; margin-bottom: 1.75rem; box-shadow: var(--shadow); }
-  .tab-btn { flex: 1; padding: 9px 10px; border: none; background: transparent; border-radius: var(--radius-sm); font-family: var(--font-main); font-size: 13px; font-weight: 500; color: var(--gray-500); cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 6px; }
-  .tab-btn:hover { background: var(--gray-50); color: var(--gray-700); }
-  .tab-btn.active { background: var(--green-900); color: var(--white); }
-
-  /* CARDS */
-  .card { background: var(--white); border: 1px solid var(--gray-100); border-radius: var(--radius-lg); padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: var(--shadow); }
-  .card-title { font-size: 12px; font-weight: 500; color: var(--gray-500); letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; }
-  .card-title::before { content: ''; width: 3px; height: 13px; background: var(--green-500); border-radius: 2px; flex-shrink: 0; }
-
-  /* TWO COLUMNS LAYOUT */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  @media (max-width: 680px) { .two-col { grid-template-columns: 1fr; } }
-
-  /* INPUTS */
-  .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 1rem; }
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label { font-size: 12px; color: var(--gray-500); font-weight: 400; }
-  .field input { font-family: var(--font-main); font-size: 15px; font-weight: 500; color: var(--gray-900); background: var(--gray-50); border: 1.5px solid var(--gray-100); border-radius: var(--radius-md); padding: 9px 13px; width: 100%; transition: border-color 0.15s; outline: none; }
-  .field input:focus { border-color: var(--green-500); background: var(--white); }
-  .field input.target { border-color: var(--blue-400); background: var(--blue-50); }
-  .field input.target:focus { border-color: var(--blue-600); }
-  .field .field-hint { font-size: 11px; color: var(--gray-300); margin-top: 2px; }
-
-  /* METRICS */
-  .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
-  .metric-card { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 1rem 1.1rem; }
-  .metric-card.green { background: var(--green-900); border-color: var(--green-800); }
-  .metric-card.blue  { background: var(--blue-50);  border-color: var(--blue-100); }
-  .metric-card.save  { background: var(--green-50); border-color: var(--green-200); }
-  .metric-card.warn  { background: var(--red-50);   border-color: var(--red-100); }
-  .metric-label { font-size: 11px; color: var(--gray-500); margin-bottom: 5px; line-height: 1.4; }
-  .metric-card.green .metric-label { color: var(--green-300); }
-  .metric-card.blue  .metric-label { color: var(--blue-600); }
-  .metric-card.save  .metric-label { color: var(--green-700); }
-  .metric-card.warn  .metric-label { color: var(--red-600); }
-  .metric-value { font-family: var(--font-mono); font-size: 19px; font-weight: 500; color: var(--gray-900); line-height: 1; }
-  .metric-card.green .metric-value { color: var(--green-400); font-size: 23px; }
-  .metric-card.blue  .metric-value { color: var(--blue-600); font-size: 17px; }
-  .metric-card.save  .metric-value { color: var(--green-700); }
-  .metric-card.warn  .metric-value { color: var(--red-600); }
-  .metric-sub { font-size: 11px; color: var(--gray-300); margin-top: 3px; }
-  .metric-card.green .metric-sub { color: var(--green-700); }
-  .metric-card.save  .metric-sub { color: var(--green-500); }
-  .metric-card.warn  .metric-sub { color: var(--red-600); }
-
-  /* BENCHMARK BAR */
-  .bench-wrap { margin-top: 1.25rem; }
-  .bench-label { font-size: 12px; color: var(--gray-500); margin-bottom: 8px; display: flex; justify-content: space-between; }
-  .bench-track { height: 10px; background: var(--gray-100); border-radius: 10px; position: relative; overflow: hidden; }
-  .bench-fill { height: 100%; border-radius: 10px; transition: width 0.4s ease, background 0.4s; }
-  .bench-markers { display: flex; justify-content: space-between; margin-top: 4px; }
-  .bench-markers span { font-size: 10px; color: var(--gray-300); font-family: var(--font-mono); }
-
-  /* TABLE */
-  .table-wrap { overflow-x: auto; }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  thead th { text-align: left; padding: 9px 12px; font-size: 11px; font-weight: 500; color: var(--gray-500); letter-spacing: 0.05em; border-bottom: 1px solid var(--gray-100); white-space: nowrap; }
-  tbody td { padding: 10px 12px; color: var(--gray-700); border-bottom: 1px solid var(--gray-100); font-family: var(--font-mono); font-size: 12px; white-space: nowrap; }
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: var(--gray-50); }
-  tbody tr.row-current td { background: var(--gray-100); color: var(--gray-900); font-weight: 500; }
-  tbody tr.row-target td { background: var(--green-50); color: var(--green-800); font-weight: 500; }
-  tbody tr.row-target td:first-child::after { content: ' ✦ meta'; font-size: 10px; color: var(--green-500); font-family: var(--font-main); font-weight: 400; }
-  tbody tr.row-current td:first-child::after { content: ' ← actual'; font-size: 10px; color: var(--gray-400); font-family: var(--font-main); font-weight: 400; }
-  .td-save { color: var(--green-700) !important; }
-  .td-cost { color: var(--red-600) !important; }
-
-  /* INSIGHT */
-  .insight-box { border-radius: var(--radius-md); padding: 1rem 1.2rem; font-size: 13.5px; line-height: 1.75; margin-top: 1.25rem; }
-  .insight-box.green { background: var(--green-50); border: 1px solid var(--green-200); color: var(--green-900); }
-  .insight-box.green strong { color: var(--green-700); }
-  .insight-box.blue { background: var(--blue-50); border: 1px solid var(--blue-200); color: var(--blue-900); }
-  .insight-box.blue strong { color: var(--blue-600); }
-
-  /* FORMULA */
-  .formula-box { background: var(--gray-900); border-radius: var(--radius-md); padding: 1rem 1.2rem; margin-top: 1.25rem; }
-  .formula-title { font-size: 10px; color: var(--gray-500); letter-spacing: 0.1em; margin-bottom: 8px; text-transform: uppercase; }
-  .formula-text { font-family: var(--font-mono); font-size: 12px; color: var(--green-400); line-height: 2; }
-  .formula-text span { color: var(--gray-500); }
-
-  /* UNIT SELECTOR */
-  .unit-selector { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
-  .unit-btn { padding: 5px 14px; border-radius: 20px; border: 1.5px solid var(--gray-100); background: var(--gray-50); font-family: var(--font-main); font-size: 12px; font-weight: 500; color: var(--gray-500); cursor: pointer; transition: all 0.15s; }
-  .unit-btn:hover { border-color: var(--green-300); color: var(--green-700); }
-  .unit-btn.active { background: var(--green-900); border-color: var(--green-900); color: var(--white); }
-
-  /* SECTION */
-  .section { display: none; }
-  .section.active { display: block; }
-
-  /* FOOTER */
-  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--gray-300); border-top: 1px solid var(--gray-100); }
-  footer strong { color: var(--gray-500); }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g900:#0F3524;--g800:#155230;--g700:#1B6E3E;--g600:#228B4E;--g500:#2EA661;--g400:#4DC47D;--g300:#7DD9A0;--g200:#B0EBCA;--g100:#DFFAEB;--g50:#F2FDF7;
+  --b900:#0D2B4A;--b600:#1A6DA0;--b400:#4A9FD4;--b200:#A8D4EE;--b100:#D6EDF9;--b50:#EEF7FD;
+  --gold:#E5B945;--amber:#F4A261;
+  --r600:#C0392B;--r100:#FDEAEA;--r50:#FEF5F5;
+  --p600:#6B3FA0;--p100:#EDE0FF;--p50:#F7F0FF;
+  --o600:#C05C00;--o100:#FFE8CC;--o50:#FFF5EB;
+  --gy900:#1A1D1B;--gy700:#3A3E3C;--gy500:#6B7169;--gy300:#B8BDB9;--gy100:#ECEEED;--gy50:#F6F7F6;
+  --white:#FFFFFF;--fm:'DM Sans',sans-serif;--mono:'DM Mono',monospace;
+  --rad:10px;--radlg:16px;--sh:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04)
+}
+body{font-family:var(--fm);background:var(--gy50);color:var(--gy900);min-height:100vh;line-height:1.6}
+header{background:var(--g900);padding:0 2rem;position:sticky;top:0;z-index:100;border-bottom:1px solid var(--g800)}
+.hdr{max-width:1000px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px}
+.lmark{width:32px;height:32px;background:var(--g500);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.lmark svg{width:18px;height:18px}
+.ltxt{font-size:13px;font-weight:500;color:var(--g200);letter-spacing:.03em}
+.ltxt span{display:block;font-size:11px;font-weight:300;color:var(--g400);letter-spacing:.06em}
+.hbadge{font-size:11px;font-weight:500;color:var(--gold);background:rgba(229,185,69,.12);border:1px solid rgba(229,185,69,.25);padding:4px 12px;border-radius:20px}
+.hero{background:var(--g900);padding:2.5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 120%,rgba(46,166,97,.18) 0%,transparent 70%);pointer-events:none}
+.eyebrow{font-size:11px;font-weight:500;color:var(--g400);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem}
+.hero h1{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:600;color:var(--white);line-height:1.25;margin-bottom:.6rem;max-width:700px;margin-inline:auto}
+.hero h1 em{font-style:normal;color:var(--g400)}
+.hero-sub{font-size:14px;font-weight:300;color:var(--g200);max-width:540px;margin:0 auto 1.25rem;line-height:1.7}
+.chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--g300);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);padding:4px 12px;border-radius:20px}
+main{max-width:1000px;margin:0 auto;padding:2rem 1.5rem 4rem}
+.tab-bar{display:flex;gap:4px;background:var(--white);border:1px solid var(--gy100);border-radius:var(--rad);padding:4px;margin-bottom:1.5rem;box-shadow:var(--sh)}
+.tab-btn{flex:1;padding:9px 8px;border:none;background:transparent;border-radius:6px;font-family:var(--fm);font-size:13px;font-weight:500;color:var(--gy500);cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:6px}
+.tab-btn:hover{background:var(--gy50);color:var(--gy700)}
+.tab-btn.active{background:var(--g900);color:var(--white)}
+.card{background:var(--white);border:1px solid var(--gy100);border-radius:var(--radlg);padding:1.5rem;margin-bottom:1.25rem;box-shadow:var(--sh)}
+.card-title{font-size:11px;font-weight:500;color:var(--gy500);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1.25rem;display:flex;align-items:center;gap:8px}
+.card-title::before{content:'';width:3px;height:13px;background:var(--g500);border-radius:2px;flex-shrink:0}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:680px){.two-col{grid-template-columns:1fr}}
+.ig{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:12px;color:var(--gy500)}
+.field input,.field select{font-family:var(--fm);font-size:14px;font-weight:500;color:var(--gy900);background:var(--gy50);border:1.5px solid var(--gy100);border-radius:var(--rad);padding:9px 13px;width:100%;outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--g500);background:var(--white)}
+.field .hint{font-size:11px;color:var(--gy300);margin-top:2px}
+.field input.real{border-color:var(--b400);background:var(--b50)}
+.field input.real:focus{border-color:var(--b600)}
+.section{display:none}.section.active{display:block}
+.mg{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:1rem}
+.mc{background:var(--gy50);border:1px solid var(--gy100);border-radius:var(--rad);padding:1rem 1.1rem}
+.mc.grn{background:var(--g900);border-color:var(--g800)}
+.mc.blu{background:var(--b50);border-color:var(--b100)}
+.mc.sav{background:var(--g50);border-color:var(--g200)}
+.mc.red{background:var(--r50);border-color:var(--r100)}
+.mc.pur{background:var(--p50);border-color:var(--p100)}
+.mc.ora{background:var(--o50);border-color:var(--o100)}
+.ml{font-size:11px;color:var(--gy500);margin-bottom:5px;line-height:1.4}
+.mc.grn .ml{color:var(--g300)}.mc.blu .ml{color:var(--b600)}.mc.sav .ml{color:var(--g700)}.mc.red .ml{color:var(--r600)}.mc.pur .ml{color:var(--p600)}.mc.ora .ml{color:var(--o600)}
+.mv{font-family:var(--mono);font-size:18px;font-weight:500;color:var(--gy900);line-height:1}
+.mc.grn .mv{color:var(--g400);font-size:22px}.mc.blu .mv{color:var(--b600);font-size:16px}.mc.sav .mv{color:var(--g700)}.mc.red .mv{color:var(--r600)}.mc.pur .mv{color:var(--p600)}.mc.ora .mv{color:var(--o600)}
+.ms{font-size:11px;color:var(--gy300);margin-top:3px}
+.mc.grn .ms{color:var(--g700)}.mc.sav .ms{color:var(--g500)}.mc.red .ms{color:var(--r600)}
+.semaphore{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:1rem 0}
+.sem-item{border-radius:var(--rad);padding:.75rem 1rem;border:1px solid transparent}
+.sem-item.ok{background:var(--g50);border-color:var(--g200)}
+.sem-item.warn{background:var(--o50);border-color:var(--o100)}
+.sem-item.bad{background:var(--r50);border-color:var(--r100)}
+.sem-label{font-size:11px;font-weight:500;margin-bottom:4px}
+.sem-item.ok .sem-label{color:var(--g700)}.sem-item.warn .sem-label{color:var(--o600)}.sem-item.bad .sem-label{color:var(--r600)}
+.sem-val{font-family:var(--mono);font-size:13px;font-weight:500}
+.sem-item.ok .sem-val{color:var(--g600)}.sem-item.warn .sem-val{color:var(--o600)}.sem-item.bad .sem-val{color:var(--r600)}
+.sem-std{font-size:10px;color:var(--gy300);margin-top:2px}
+.sem-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.ok .sem-dot{background:var(--g500)}.warn .sem-dot{background:var(--amber)}.bad .sem-dot{background:var(--r600)}
+.bench-wrap{margin-top:1rem}
+.bench-lbl{font-size:12px;color:var(--gy500);margin-bottom:6px;display:flex;justify-content:space-between}
+.bench-track{height:8px;background:var(--gy100);border-radius:8px;overflow:hidden}
+.bench-fill{height:100%;border-radius:8px;transition:width .4s ease,background .4s}
+.bench-mkr{display:flex;justify-content:space-between;margin-top:3px}
+.bench-mkr span{font-size:10px;color:var(--gy300);font-family:var(--mono)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{text-align:left;padding:9px 12px;font-size:11px;font-weight:500;color:var(--gy500);letter-spacing:.05em;border-bottom:1px solid var(--gy100);white-space:nowrap}
+tbody td{padding:10px 12px;color:var(--gy700);border-bottom:1px solid var(--gy100);font-family:var(--mono);font-size:12px;white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--gy50)}
+tbody tr.rc td{background:var(--gy100);color:var(--gy900);font-weight:500}
+tbody tr.rt td{background:var(--g50);color:var(--g800);font-weight:500}
+tbody tr.rt td:first-child::after{content:' estandar';font-size:10px;color:var(--g500);font-family:var(--fm);font-weight:400}
+tbody tr.rc td:first-child::after{content:' actual';font-size:10px;color:var(--gy400);font-family:var(--fm);font-weight:400}
+.ts{color:var(--g700)!important}.tc{color:var(--r600)!important}
+.ibox{border-radius:var(--rad);padding:1rem 1.2rem;font-size:13.5px;line-height:1.75;margin-top:1rem}
+.ibox.grn{background:var(--g50);border:1px solid var(--g200);color:var(--g900)}
+.ibox.grn strong{color:var(--g700)}
+.ibox.blu{background:var(--b50);border:1px solid var(--b200);color:var(--b900)}
+.ibox.blu strong{color:var(--b600)}
+.fbox{background:var(--gy900);border-radius:var(--rad);padding:1rem 1.2rem;margin-top:1rem}
+.ftit{font-size:10px;color:var(--gy500);letter-spacing:.1em;margin-bottom:8px;text-transform:uppercase}
+.ftxt{font-family:var(--mono);font-size:12px;color:var(--g400);line-height:2}
+.ftxt span{color:var(--gy500)}
+.uselector{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+.ubtn{padding:5px 14px;border-radius:20px;border:1.5px solid var(--gy100);background:var(--gy50);font-family:var(--fm);font-size:12px;font-weight:500;color:var(--gy500);cursor:pointer;transition:all .15s}
+.ubtn:hover{border-color:var(--g300);color:var(--g700)}
+.ubtn.active{background:var(--g900);border-color:var(--g900);color:var(--white)}
+.gen-selector{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;margin-bottom:1.5rem}
+.gen-btn{padding:10px 12px;border-radius:var(--rad);border:1.5px solid var(--gy100);background:var(--white);font-family:var(--fm);font-size:12px;font-weight:500;color:var(--gy500);cursor:pointer;transition:all .18s;text-align:left}
+.gen-btn:hover{border-color:var(--g300);background:var(--g50)}
+.gen-btn.active{border-width:2px;color:var(--white)}
+.gen-btn .gname{font-size:13px;font-weight:600;display:block;margin-bottom:2px}
+.gen-btn .gsub{font-size:10px;opacity:.85}
+.gen-btn[data-gen="hyline_brown"].active{background:#6B3012;border-color:#6B3012}
+.gen-btn[data-gen="hyline_w36"].active{background:var(--b600);border-color:var(--b600)}
+.gen-btn[data-gen="lohmann_brown"].active{background:var(--g700);border-color:var(--g700)}
+.gen-btn[data-gen="lohmann_lsl"].active{background:var(--p600);border-color:var(--p600)}
+.std-row{background:var(--g50);border:1px solid var(--g200);border-radius:var(--rad);padding:.85rem 1.1rem;margin-bottom:1rem;display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center}
+.std-item .sv{font-family:var(--mono);font-size:16px;font-weight:500;color:var(--g700)}
+.std-item .sl{font-size:11px;color:var(--g500);margin-top:2px}
+footer{text-align:center;padding:2rem;font-size:12px;color:var(--gy300);border-top:1px solid var(--gy100)}
+footer strong{color:var(--gy500)}
 </style>
 </head>
 <body>
-
 <header>
-  <div class="header-inner">
+  <div class="hdr">
     <div class="logo">
-      <div class="logo-mark">
-        <svg viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5.5V12.5L9 16L4 12.5V5.5L9 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 7V11M7 9H11" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-      </div>
-      <div class="logo-text">Programa CTC <span>Análisis técnico-económico</span></div>
+      <div class="lmark"><svg viewBox="0 0 18 18" fill="none"><path d="M9 2L14 5.5V12.5L9 16L4 12.5V5.5L9 2Z" stroke="white" stroke-width="1.5" stroke-linejoin="round"/><path d="M9 7V11M7 9H11" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+      <div class="ltxt">Programa CTC <span>Analisis tecnico-economico</span></div>
     </div>
-    <div class="header-badge">Módulo 1 — Fundamentos</div>
+    <div class="hbadge">Modulo 1 — Fundamentos</div>
   </div>
 </header>
-
 <div class="hero">
-  <div class="hero-eyebrow">Herramienta de análisis</div>
-  <h1>Calculadora de <em>conversión alimenticia</em></h1>
-  <p class="hero-sub">Ingresa tus datos reales y una meta de conversión. El simulador calcula el ahorro exacto en alimento y dinero por ciclo.</p>
-  <div class="species-chips">
-    <span class="chip">🐔 Pollos de engorde</span>
-    <span class="chip">🐷 Cerdos en ceba</span>
-    <span class="chip">🥚 Gallinas ponedoras</span>
+  <div class="eyebrow">Herramienta de analisis</div>
+  <h1>Calculadora de <em>conversion alimenticia</em></h1>
+  <p class="hero-sub">Datos reales vs. estandares geneticos. Pollos, cerdos y ponedoras con curvas Hy-Line y Lohmann integradas.</p>
+  <div class="chips">
+    <span class="chip">Pollos de engorde</span>
+    <span class="chip">Cerdos en ceba</span>
+    <span class="chip">Hy-Line Brown / W-36</span>
+    <span class="chip">Lohmann Brown / LSL</span>
   </div>
 </div>
-
 <main>
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="switchTab('pollo', this)"><span>🐔</span> Pollos de engorde</button>
-    <button class="tab-btn" onclick="switchTab('cerdo', this)"><span>🐷</span> Cerdos en ceba</button>
-    <button class="tab-btn" onclick="switchTab('ponedora', this)"><span>🥚</span> Gallinas ponedoras</button>
+    <button class="tab-btn active" onclick="switchTab('pollo',this)">Pollos de engorde</button>
+    <button class="tab-btn" onclick="switchTab('cerdo',this)">Cerdos en ceba</button>
+    <button class="tab-btn" onclick="switchTab('ponedora',this)">Gallinas ponedoras</button>
   </div>
 
-  <!-- ══ POLLOS ══ -->
+  <!-- POLLOS -->
   <div class="section active" id="sec-pollo">
     <div class="card">
-      <div class="card-title">Parámetros del lote</div>
+      <div class="card-title">Parametros del lote</div>
       <div class="two-col">
-        <div class="input-grid">
+        <div class="ig">
           <div class="field"><label>Aves alojadas</label><input type="number" id="p-aves" value="20000" min="1" oninput="calc('pollo')"></div>
           <div class="field"><label>Peso promedio sacrificio (kg)</label><input type="number" id="p-peso" value="2.50" min="0.1" step="0.05" oninput="calc('pollo')"></div>
-          <div class="field"><label>CA actual del lote</label><input type="number" id="p-ca" value="1.92" min="1.00" step="0.01" oninput="calc('pollo')"><span class="field-hint">Conversión alimenticia registrada</span></div>
+          <div class="field"><label>CA actual del lote</label><input type="number" id="p-ca" value="1.92" min="1" step="0.01" oninput="calc('pollo')"><span class="hint">Conversion registrada en el ciclo</span></div>
           <div class="field"><label>Precio alimento ($ / kg)</label><input type="number" id="p-precio" value="0.48" min="0.01" step="0.01" oninput="calc('pollo')"></div>
         </div>
         <div>
           <div class="field" style="margin-bottom:1rem">
-            <label>CA objetivo (meta a alcanzar)</label>
-            <input type="number" id="p-ca-obj" value="1.82" min="1.00" step="0.01" class="target" oninput="calc('pollo')">
-            <span class="field-hint">Benchmark sector: 1.75 – 1.85</span>
+            <label>CA objetivo (meta)</label>
+            <input type="number" id="p-ca-obj" value="1.82" min="1" step="0.01" class="real" oninput="calc('pollo')">
+            <span class="hint">Benchmark sector: 1.75 - 1.85</span>
           </div>
           <div class="bench-wrap" id="p-bench"></div>
         </div>
       </div>
-      <div class="formula-box">
-        <div class="formula-title">Lógica de cálculo</div>
-        <div class="formula-text">
-          Consumo actual (kg) <span>=</span> Aves × Peso × CA actual<br>
-          Consumo objetivo (kg) <span>=</span> Aves × Peso × CA objetivo<br>
-          Ahorro real (kg) <span>=</span> Consumo actual − Consumo objetivo<br>
-          Ahorro real ($) <span>=</span> Ahorro kg × Precio alimento
-        </div>
-      </div>
+      <div class="fbox"><div class="ftit">Logica de calculo</div><div class="ftxt">Consumo actual <span>=</span> Aves x Peso x CA actual<br>Consumo objetivo <span>=</span> Aves x Peso x CA objetivo<br>Ahorro real (kg) <span>=</span> Consumo actual - Consumo objetivo<br>Ahorro real ($) <span>=</span> Ahorro kg x Precio alimento</div></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Comparación actual vs. meta</div>
-      <div class="metrics-grid" id="p-metrics"></div>
-      <div class="insight-box green" id="p-insight"></div>
+      <div class="card-title">Comparacion actual vs. meta</div>
+      <div class="mg" id="p-metrics"></div>
+      <div class="ibox grn" id="p-insight"></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Tabla de escenarios de conversión</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>CA escenario</th><th>Puntos de mejora</th><th>Consumo alimento</th><th>Ahorro en kg</th><th>Ahorro en $</th><th>$ alim. / kg carne</th></tr></thead>
-          <tbody id="p-tabla"></tbody>
-        </table>
-      </div>
+      <div class="card-title">Tabla de escenarios — mejora progresiva de CA</div>
+      <div class="tw"><table><thead><tr><th>CA escenario</th><th>Puntos de mejora</th><th>Consumo alimento</th><th>Ahorro en kg</th><th>Ahorro en $</th><th>$ alim. / kg carne</th></tr></thead><tbody id="p-tabla"></tbody></table></div>
     </div>
   </div>
 
-  <!-- ══ CERDOS ══ -->
+  <!-- CERDOS -->
   <div class="section" id="sec-cerdo">
     <div class="card">
-      <div class="card-title">Parámetros del lote</div>
+      <div class="card-title">Parametros del lote</div>
       <div class="two-col">
-        <div class="input-grid">
+        <div class="ig">
           <div class="field"><label>Cerdos en ceba</label><input type="number" id="c-cerdos" value="500" min="1" oninput="calc('cerdo')"></div>
           <div class="field"><label>Peso entrada sitio 3 (kg)</label><input type="number" id="c-entrada" value="25" min="1" step="0.5" oninput="calc('cerdo')"></div>
           <div class="field"><label>Peso salida / mercado (kg)</label><input type="number" id="c-salida" value="105" min="1" step="0.5" oninput="calc('cerdo')"></div>
-          <div class="field"><label>CA actual del lote</label><input type="number" id="c-ca" value="2.65" min="1" step="0.01" oninput="calc('cerdo')"><span class="field-hint">Conversión alimenticia registrada</span></div>
+          <div class="field"><label>CA actual del lote</label><input type="number" id="c-ca" value="2.65" min="1" step="0.01" oninput="calc('cerdo')"><span class="hint">Conversion registrada</span></div>
           <div class="field"><label>Precio alimento ($ / kg)</label><input type="number" id="c-precio" value="0.52" min="0.01" step="0.01" oninput="calc('cerdo')"></div>
         </div>
         <div>
           <div class="field" style="margin-bottom:1rem">
-            <label>CA objetivo (meta a alcanzar)</label>
-            <input type="number" id="c-ca-obj" value="2.45" min="1" step="0.01" class="target" oninput="calc('cerdo')">
-            <span class="field-hint">Benchmark sector: 2.40 – 2.55</span>
+            <label>CA objetivo (meta)</label>
+            <input type="number" id="c-ca-obj" value="2.45" min="1" step="0.01" class="real" oninput="calc('cerdo')">
+            <span class="hint">Benchmark sector: 2.40 - 2.55</span>
           </div>
           <div class="bench-wrap" id="c-bench"></div>
         </div>
       </div>
-      <div class="formula-box">
-        <div class="formula-title">Lógica de cálculo</div>
-        <div class="formula-text">
-          Ganancia / animal (kg) <span>=</span> Peso salida − Peso entrada<br>
-          Consumo actual (kg) <span>=</span> Cerdos × Ganancia × CA actual<br>
-          Consumo objetivo (kg) <span>=</span> Cerdos × Ganancia × CA objetivo<br>
-          Ahorro real ($) <span>=</span> (Consumo actual − Consumo obj.) × Precio kg
-        </div>
-      </div>
+      <div class="fbox"><div class="ftit">Logica de calculo</div><div class="ftxt">Ganancia / animal <span>=</span> Peso salida - Peso entrada<br>Consumo actual <span>=</span> Cerdos x Ganancia x CA actual<br>Consumo objetivo <span>=</span> Cerdos x Ganancia x CA objetivo<br>Ahorro real ($) <span>=</span> (Consumo actual - Consumo obj.) x Precio</div></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Comparación actual vs. meta</div>
-      <div class="metrics-grid" id="c-metrics"></div>
-      <div class="insight-box green" id="c-insight"></div>
+      <div class="card-title">Comparacion actual vs. meta</div>
+      <div class="mg" id="c-metrics"></div>
+      <div class="ibox grn" id="c-insight"></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Tabla de escenarios de conversión</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>CA escenario</th><th>Puntos de mejora</th><th>Consumo alimento</th><th>Ahorro en kg</th><th>Ahorro en $</th><th>$ alim. / kg carne</th></tr></thead>
-          <tbody id="c-tabla"></tbody>
-        </table>
-      </div>
+      <div class="card-title">Tabla de escenarios — mejora progresiva de CA</div>
+      <div class="tw"><table><thead><tr><th>CA escenario</th><th>Puntos de mejora</th><th>Consumo alimento</th><th>Ahorro en kg</th><th>Ahorro en $</th><th>$ alim. / kg carne</th></tr></thead><tbody id="c-tabla"></tbody></table></div>
     </div>
   </div>
 
-  <!-- ══ PONEDORAS ══ -->
+  <!-- PONEDORAS -->
   <div class="section" id="sec-ponedora">
     <div class="card">
-      <div class="card-title">Parámetros del lote</div>
+      <div class="card-title">Linea genetica</div>
+      <div class="gen-selector">
+        <button class="gen-btn active" data-gen="hyline_brown" onclick="selectGen(this)"><span class="gname">Hy-Line Brown</span><span class="gsub">Postura 90-94% - Huevo cafe</span></button>
+        <button class="gen-btn" data-gen="hyline_w36" onclick="selectGen(this)"><span class="gname">Hy-Line W-36</span><span class="gsub">Postura 92-95% - Huevo blanco</span></button>
+        <button class="gen-btn" data-gen="lohmann_brown" onclick="selectGen(this)"><span class="gname">Lohmann Brown</span><span class="gsub">Postura 90-94% - Huevo cafe</span></button>
+        <button class="gen-btn" data-gen="lohmann_lsl" onclick="selectGen(this)"><span class="gname">Lohmann LSL</span><span class="gsub">Postura 91-94% - Huevo blanco</span></button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">Datos del lote vs. estandar genetico</div>
       <div class="two-col">
-        <div class="input-grid">
-          <div class="field"><label>Aves en producción</label><input type="number" id="n-aves" value="10000" min="1" oninput="calc('ponedora')"></div>
-          <div class="field"><label>Semanas en producción</label><input type="number" id="n-semanas" value="52" min="1" oninput="calc('ponedora')"></div>
-          <div class="field"><label>%HD actual (% postura)</label><input type="number" id="n-hd" value="88" min="1" max="100" step="0.5" oninput="calc('ponedora')"><span class="field-hint">Producción/ave/día registrada</span></div>
-          <div class="field"><label>Consumo alimento ave/día (g)</label><input type="number" id="n-consumo" value="115" min="50" step="1" oninput="calc('ponedora')"></div>
+        <div class="ig">
+          <div class="field"><label>Aves en produccion</label><input type="number" id="n-aves" value="10000" min="1" oninput="calc('ponedora')"></div>
+          <div class="field"><label>Semana de produccion actual</label><input type="number" id="n-semana" value="35" min="17" max="80" oninput="calc('ponedora')"><span class="hint">Semana 17 = inicio postura</span></div>
+          <div class="field"><label>%HD real del lote</label><input type="number" id="n-hd" value="88" min="1" max="100" step="0.5" class="real" oninput="calc('ponedora')"><span class="hint">Dato real registrado</span></div>
+          <div class="field"><label>Consumo real ave/dia (g)</label><input type="number" id="n-consumo" value="118" min="50" step="1" class="real" oninput="calc('ponedora')"><span class="hint">Dato real registrado</span></div>
           <div class="field"><label>Precio alimento ($ / kg)</label><input type="number" id="n-precio" value="0.48" min="0.01" step="0.01" oninput="calc('ponedora')"></div>
+          <div class="field"><label>Precio huevo ($ / huevo)</label><input type="number" id="n-phuevo" value="0.12" min="0.01" step="0.01" oninput="calc('ponedora')"></div>
         </div>
         <div>
-          <div class="field" style="margin-bottom:1rem">
-            <label>%HD objetivo (meta)</label>
-            <input type="number" id="n-hd-obj" value="92" min="1" max="100" step="0.5" class="target" oninput="calc('ponedora')">
-            <span class="field-hint">Benchmark sector: 90 – 95%</span>
+          <div style="margin-bottom:.75rem;font-size:12px;color:var(--gy500);font-weight:500;letter-spacing:.04em;text-transform:uppercase;">Estandar genetico — semana <span id="n-sem-lbl">35</span></div>
+          <div class="std-row" id="n-std-row">
+            <div class="std-item"><div class="sv" id="n-std-hd">--</div><div class="sl">%HD esperado</div></div>
+            <div class="std-item"><div class="sv" id="n-std-cons">--</div><div class="sl">g/ave/dia</div></div>
+            <div class="std-item"><div class="sv" id="n-std-peso">--</div><div class="sl">g peso huevo</div></div>
           </div>
-          <div class="field" style="margin-bottom:1rem">
-            <label>Consumo objetivo ave/día (g)</label>
-            <input type="number" id="n-consumo-obj" value="112" min="50" step="1" class="target" oninput="calc('ponedora')">
-            <span class="field-hint">Meta de eficiencia nutricional</span>
-          </div>
+          <div style="margin-bottom:.5rem;font-size:12px;color:var(--gy500);">Brecha vs. estandar</div>
+          <div class="semaphore" id="n-semaphore"></div>
           <div class="bench-wrap" id="n-bench"></div>
         </div>
       </div>
-      <div class="formula-box">
-        <div class="formula-title">Lógica de cálculo</div>
-        <div class="formula-text">
-          Huevos actuales <span>=</span> Aves × Días × (%HD actual / 100)<br>
-          Huevos objetivo <span>=</span> Aves × Días × (%HD objetivo / 100)<br>
-          kg alim. / huevo <span>=</span> (Aves × Días × Consumo g ÷ 1000) ÷ Huevos<br>
-          Ahorro real <span>=</span> (kg/huevo actual − kg/huevo obj.) × Huevos obj. × Precio
-        </div>
-      </div>
     </div>
-
     <div class="card">
-      <div class="card-title">Unidad de análisis</div>
-      <div class="unit-selector">
-        <button class="unit-btn active" onclick="setUnit('huevo',this)">Por huevo</button>
-        <button class="unit-btn" onclick="setUnit('docena',this)">Por docena (12)</button>
-        <button class="unit-btn" onclick="setUnit('treinta',this)">Por 30 huevos</button>
+      <div class="card-title">Analisis de produccion — real vs. estandar genetico</div>
+      <div class="uselector">
+        <button class="ubtn active" onclick="setUnit('huevo',this)">Por huevo</button>
+        <button class="ubtn" onclick="setUnit('docena',this)">Por docena (12)</button>
+        <button class="ubtn" onclick="setUnit('treinta',this)">Por panal (30)</button>
       </div>
-      <div class="metrics-grid" id="n-metrics"></div>
-      <div class="insight-box blue" id="n-insight"></div>
+      <div class="mg" id="n-metrics-prod"></div>
+      <div class="ibox grn" id="n-insight-prod"></div>
     </div>
-
     <div class="card">
-      <div class="card-title">Tabla de escenarios — variación de %HD</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>%HD</th><th>Huevos producidos</th><th>kg alim. / unidad</th><th>Costo / unidad</th><th>Δ costo vs. actual</th></tr></thead>
-          <tbody id="n-tabla"></tbody>
-        </table>
+      <div class="card-title">Diagnostico nutricional — efecto sobre postura</div>
+      <div class="ig" style="margin-bottom:1.25rem">
+        <div class="field"><label>Energia metabolizable (kcal/kg)</label><input type="number" id="n-em" value="2800" min="2400" max="3200" step="10" oninput="calc('ponedora')"><span class="hint">Estandar: 2750-2900</span></div>
+        <div class="field"><label>Proteina cruda (%)</label><input type="number" id="n-pc" value="16.5" min="10" max="22" step="0.1" oninput="calc('ponedora')"><span class="hint">Estandar pico: 17-18%</span></div>
+        <div class="field"><label>Met + Cis (g/ave/dia)</label><input type="number" id="n-metcis" value="0.62" min="0.3" max="1.0" step="0.01" oninput="calc('ponedora')"><span class="hint">Estandar: 0.65-0.72 g</span></div>
+        <div class="field"><label>Calcio — Ca (g/ave/dia)</label><input type="number" id="n-ca" value="3.8" min="2" max="5.5" step="0.1" oninput="calc('ponedora')"><span class="hint">Estandar: 3.8-4.2 g</span></div>
+        <div class="field"><label>Fosforo disp. — Pd (g/ave/dia)</label><input type="number" id="n-pd" value="0.36" min="0.2" max="0.6" step="0.01" oninput="calc('ponedora')"><span class="hint">Estandar: 0.35-0.42 g</span></div>
+        <div class="field"><label>Sodio — Na (%)</label><input type="number" id="n-na" value="0.16" min="0.1" max="0.3" step="0.01" oninput="calc('ponedora')"><span class="hint">Estandar: 0.15-0.20%</span></div>
       </div>
+      <div class="semaphore" id="n-sem-nutri"></div>
+      <div class="mg" id="n-metrics-nutri" style="margin-top:1rem"></div>
+      <div class="ibox blu" id="n-insight-nutri"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Curva de postura — real vs. estandar genetico por semana</div>
+      <div class="tw"><table><thead><tr><th>Semana</th><th>%HD estandar</th><th>%HD real</th><th>Brecha</th><th>Huevos +/-</th><th>Ingreso +/-</th><th>kg alim. / unidad</th><th>Costo / unidad</th></tr></thead><tbody id="n-tabla"></tbody></table></div>
     </div>
   </div>
 </main>
-
-<footer>
-  <strong>Programa de Capacitación CTC</strong> — Análisis técnico-económico en producción animal<br>
-  Módulo 1: Fundamentos financieros y contables · Herramienta de uso interno
-</footer>
+<footer><strong>Programa de Capacitacion CTC</strong> — Analisis tecnico-economico en produccion animal<br>Modulo 1: Fundamentos · Curvas geneticas: Hy-Line Guide 2023 · Lohmann Management Guide 2023</footer>
 
 <script>
-var currentUnit = 'huevo';
-var lastN = {};
+var CURVAS = {
+  hyline_brown:{nombre:"Hy-Line Brown",
+    semanas:[17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80],
+    hd:[5,30,68,85,91,93,94,94,94,93,93,92,92,91,91,90,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,73,72,71,69,68,67,65],
+    consumo:[90,95,100,105,108,110,112,113,114,115,115,115,115,115,115,115,115,114,114,113,113,112,112,111,111,110,110,109,109,108,108,107,107,106,106,105,105,104,104],
+    pesoH:[48,52,55,57,59,60,61,62,62,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,62,62,62,62,62,61,61,61,61,60,60,60,60,59,59]},
+  hyline_w36:{nombre:"Hy-Line W-36",
+    semanas:[17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80],
+    hd:[4,25,62,82,90,93,94,95,95,95,94,94,93,93,92,91,90,89,88,87,86,85,84,83,82,80,79,78,76,75,74,72,71,70,68,67,65,64,62],
+    consumo:[80,83,87,90,93,95,97,98,99,100,100,100,100,100,100,100,99,99,98,98,97,97,96,96,95,95,94,94,93,93,92,92,91,91,90,90,89,89,88],
+    pesoH:[46,49,52,54,56,57,58,59,59,60,60,60,60,60,60,60,60,60,60,60,59,59,59,59,58,58,58,57,57,57,56,56,56,55,55,55,54,54,54]},
+  lohmann_brown:{nombre:"Lohmann Brown Classic",
+    semanas:[17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80],
+    hd:[4,28,65,84,91,93,94,94,94,93,93,92,92,91,91,90,89,88,87,86,85,84,83,82,81,80,79,78,77,76,75,74,72,71,70,68,67,66,64],
+    consumo:[92,96,100,105,109,111,113,114,115,115,116,116,116,116,115,115,115,114,114,113,113,112,112,111,111,110,110,109,109,108,108,107,107,106,106,105,104,104,103],
+    pesoH:[47,51,54,57,59,61,62,63,63,64,64,64,64,64,64,64,63,63,63,63,63,63,62,62,62,62,61,61,61,60,60,60,60,59,59,59,58,58,58]},
+  lohmann_lsl:{nombre:"Lohmann LSL Classic",
+    semanas:[17,18,19,20,21,22,23,24,25,26,27,28,29,30,32,34,36,38,40,42,44,46,48,50,52,54,56,58,60,62,64,66,68,70,72,74,76,78,80],
+    hd:[3,22,58,80,89,92,93,94,94,94,93,93,92,92,91,90,89,88,87,86,85,84,83,82,81,79,78,77,76,74,73,72,70,69,68,66,65,63,62],
+    consumo:[82,85,88,91,94,96,98,99,100,100,100,100,100,100,100,99,99,98,98,97,97,96,96,95,95,94,94,93,92,92,91,91,90,90,89,89,88,88,87],
+    pesoH:[45,48,51,53,56,57,58,59,59,60,60,60,60,60,60,60,60,59,59,59,59,58,58,58,58,57,57,57,56,56,56,55,55,55,54,54,54,53,53]}
+};
 
-function fmt(n)      { return Math.round(n).toLocaleString('es'); }
-function fmtD(n)     { return '$ ' + n.toLocaleString('es', {minimumFractionDigits:2, maximumFractionDigits:2}); }
-function fmtF(n,d)   { return n.toLocaleString('es', {minimumFractionDigits:d, maximumFractionDigits:d}); }
-function fmtDelta(n) { return (n >= 0 ? '+' : '') + fmtD(n); }
-function fmtDeltaKg(n){ return (n >= 0 ? '+' : '') + fmt(n) + ' kg'; }
+var currentGen='hyline_brown', currentUnit='huevo', lastN={};
 
-function benchBar(containerId, current, best, worst, label) {
-  var range  = worst - best;
-  var pos    = range > 0 ? Math.min(100, Math.max(0, ((current - best) / range) * 100)) : 0;
-  var color  = pos < 33 ? '#2EA661' : pos < 66 ? '#E5B945' : '#C0392B';
-  document.getElementById(containerId).innerHTML =
-    '<div class="bench-label"><span>Posición vs. benchmark</span><span style="font-family:var(--font-mono);font-size:12px;color:var(--gray-700)">' + label + '</span></div>' +
-    '<div class="bench-track"><div class="bench-fill" style="width:' + pos.toFixed(1) + '%;background:' + color + '"></div></div>' +
-    '<div class="bench-markers"><span>Óptimo</span><span>Promedio</span><span>Deficiente</span></div>';
+function fmt(n){return Math.round(n).toLocaleString('es')}
+function fmtD(n){return '$ '+n.toLocaleString('es',{minimumFractionDigits:2,maximumFractionDigits:2})}
+function fmtF(n,d){return n.toLocaleString('es',{minimumFractionDigits:d,maximumFractionDigits:d})}
+
+function interpolar(gen,semana){
+  var c=CURVAS[gen],s=c.semanas;
+  if(semana<=s[0])return{hd:c.hd[0],consumo:c.consumo[0],pesoH:c.pesoH[0]};
+  if(semana>=s[s.length-1])return{hd:c.hd[s.length-1],consumo:c.consumo[s.length-1],pesoH:c.pesoH[s.length-1]};
+  for(var i=0;i<s.length-1;i++){
+    if(semana>=s[i]&&semana<=s[i+1]){
+      var t=(semana-s[i])/(s[i+1]-s[i]);
+      return{hd:c.hd[i]+t*(c.hd[i+1]-c.hd[i]),consumo:c.consumo[i]+t*(c.consumo[i+1]-c.consumo[i]),pesoH:c.pesoH[i]+t*(c.pesoH[i+1]-c.pesoH[i])};
+    }
+  }
 }
 
-function switchTab(sp, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+function benchBar(id,val,best,worst,label,higherIsBetter){
+  var range=Math.abs(worst-best),pos;
+  if(higherIsBetter){pos=range>0?Math.min(100,Math.max(0,((val-worst)/range)*100)):0;}
+  else{pos=range>0?Math.min(100,Math.max(0,((val-best)/range)*100)):0;}
+  var color=pos<33?'#2EA661':pos<66?'#E5B945':'#C0392B';
+  document.getElementById(id).innerHTML=
+    '<div class="bench-lbl"><span>Posicion vs. benchmark</span><span style="font-family:var(--mono);font-size:12px;color:var(--gy700)">'+label+'</span></div>'+
+    '<div class="bench-track"><div class="bench-fill" style="width:'+pos.toFixed(1)+'%;background:'+color+'"></div></div>'+
+    '<div class="bench-mkr"><span>Optimo</span><span>Promedio</span><span>Deficiente</span></div>';
+}
+
+function unitMult(){return currentUnit==='huevo'?1:currentUnit==='docena'?12:30}
+function unitLabel(){return currentUnit==='huevo'?'huevo':currentUnit==='docena'?'docena (12)':'panal (30)'}
+
+function switchTab(sp,btn){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   btn.classList.add('active');
-  document.getElementById('sec-' + sp).classList.add('active');
+  document.getElementById('sec-'+sp).classList.add('active');
   calc(sp);
 }
-
-function setUnit(unit, btn) {
-  currentUnit = unit;
-  document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+function selectGen(btn){
+  document.querySelectorAll('.gen-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentGen=btn.dataset.gen;
+  calc('ponedora');
+}
+function setUnit(u,btn){
+  currentUnit=u;
+  document.querySelectorAll('.ubtn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderPonedora(lastN);
 }
 
-function unitMult()  { return currentUnit === 'huevo' ? 1 : currentUnit === 'docena' ? 12 : 30; }
-function unitLabel() { return currentUnit === 'huevo' ? 'huevo' : currentUnit === 'docena' ? 'docena (12 uds)' : '30 huevos'; }
-
-function calc(sp) {
-  if (sp === 'pollo') {
-    var aves   = parseFloat(document.getElementById('p-aves').value)   || 0;
-    var peso   = parseFloat(document.getElementById('p-peso').value)   || 0;
-    var ca     = parseFloat(document.getElementById('p-ca').value)     || 0;
-    var caObj  = parseFloat(document.getElementById('p-ca-obj').value) || 0;
-    var precio = parseFloat(document.getElementById('p-precio').value) || 0;
-
-    var consActual  = aves * peso * ca;
-    var consObj     = aves * peso * caObj;
-    var ahorroKg    = consActual - consObj;
-    var ahorroD     = ahorroKg * precio;
-    var costKgActual = ca > 0 ? precio * ca : 0;
-    var costKgObj    = caObj > 0 ? precio * caObj : 0;
-
-    benchBar('p-bench', ca, 1.75, 2.10, 'CA ' + fmtF(ca,2));
-
-    var mc = document.getElementById('p-metrics');
-    mc.innerHTML =
-      '<div class="metric-card"><div class="metric-label">Consumo actual (CA ' + fmtF(ca,2) + ')</div><div class="metric-value">' + fmt(consActual) + ' kg</div><div class="metric-sub">alimento total del ciclo</div></div>' +
-      '<div class="metric-card blue"><div class="metric-label">Consumo objetivo (CA ' + fmtF(caObj,2) + ')</div><div class="metric-value">' + fmt(consObj) + ' kg</div><div class="metric-sub">con la CA meta</div></div>' +
-      '<div class="metric-card ' + (ahorroKg >= 0 ? 'save' : 'warn') + '"><div class="metric-label">Ahorro real en alimento</div><div class="metric-value">' + fmt(Math.abs(ahorroKg)) + ' kg</div><div class="metric-sub">' + fmtD(Math.abs(ahorroD)) + ' por ciclo</div></div>' +
-      '<div class="metric-card green"><div class="metric-label">Valor del ciclo en juego</div><div class="metric-value">' + fmtD(Math.abs(ahorroD)) + '</div><div class="metric-sub">ahorro real alcanzable</div></div>';
-
-    document.getElementById('p-insight').innerHTML = ahorroKg > 0
-      ? 'Pasar de CA <strong>' + fmtF(ca,2) + '</strong> a <strong>' + fmtF(caObj,2) + '</strong> en un lote de <strong>' + fmt(aves) + ' aves</strong> significa consumir <strong>' + fmt(ahorroKg) + ' kg menos de alimento</strong> por ciclo, equivalente a <strong>' + fmtD(ahorroD) + '</strong>. Cada mejora de 0.01 en CA ahorra exactamente <strong>' + fmtD(aves * peso * 0.01 * precio) + '</strong>.'
-      : 'La CA objetivo es mayor que la actual. Ajusta la meta para que sea inferior a la CA registrada y el simulador mostrará el ahorro real.';
-
-    // Tabla progresiva: parte en CA actual, baja de 0.02 en 0.02 hasta caObj - 0.06
-    var steps = [];
-    var caStart = Math.round(ca * 100) / 100;
-    var caEnd   = Math.max(1.40, Math.round((Math.min(caObj, ca) - 0.06) * 100) / 100);
-    for (var v = caStart; v >= caEnd - 0.001; v = Math.round((v - 0.02) * 100) / 100) {
-      steps.push(Math.round(v * 100) / 100);
-    }
-    // Asegurar que la CA objetivo siempre esté en la tabla
-    var caObjR = Math.round(caObj * 100) / 100;
-    if (!steps.some(function(s){ return Math.abs(s - caObjR) < 0.001; })) steps.push(caObjR);
-    steps.sort(function(a,b){ return b - a; }); // mayor a menor (mejora hacia abajo)
-
-    var rows = '';
-    steps.forEach(function(v) {
-      var cons      = aves * peso * v;
-      var dKg       = consActual - cons;          // positivo = ahorro
-      var dD        = dKg * precio;
-      var ckg       = precio * v;
-      var puntosCA  = Math.round((ca - v) * 100); // puntos mejorados
-      var isCur     = Math.abs(v - ca) < 0.001;
-      var isTgt     = Math.abs(v - caObjR) < 0.001;
-      var cls       = isCur ? 'row-current' : isTgt ? 'row-target' : '';
-      var puntosStr = isCur ? '—' : puntosCA + (puntosCA === 1 ? ' pto' : ' ptos');
-      var dKgStr    = isCur ? '—' : '<span class="' + (dKg > 0 ? 'td-save' : 'td-cost') + '">+' + fmt(dKg) + ' kg</span>';
-      var dDStr     = isCur ? '—' : '<span class="' + (dD  > 0 ? 'td-save' : 'td-cost') + '">' + fmtD(dD) + '</span>';
-      rows += '<tr class="' + cls + '"><td>' + fmtF(v,2) + '</td><td>' + puntosStr + '</td><td>' + fmt(cons) + ' kg</td><td>' + dKgStr + '</td><td>' + dDStr + '</td><td>' + fmtD(ckg) + '</td></tr>';
-    });
-    document.getElementById('p-tabla').innerHTML = rows;
-
-  } else if (sp === 'cerdo') {
-    var cerdos = parseFloat(document.getElementById('c-cerdos').value)  || 0;
-    var ent    = parseFloat(document.getElementById('c-entrada').value) || 0;
-    var sal    = parseFloat(document.getElementById('c-salida').value)  || 0;
-    var ca     = parseFloat(document.getElementById('c-ca').value)      || 0;
-    var caObj  = parseFloat(document.getElementById('c-ca-obj').value)  || 0;
-    var precio = parseFloat(document.getElementById('c-precio').value)  || 0;
-
-    var gan        = sal - ent;
-    var consActual = cerdos * gan * ca;
-    var consObj    = cerdos * gan * caObj;
-    var ahorroKg   = consActual - consObj;
-    var ahorroD    = ahorroKg * precio;
-
-    benchBar('c-bench', ca, 2.30, 2.90, 'CA ' + fmtF(ca,2));
-
-    var mc = document.getElementById('c-metrics');
-    mc.innerHTML =
-      '<div class="metric-card"><div class="metric-label">Ganancia / animal</div><div class="metric-value">' + fmtF(gan,1) + ' kg</div><div class="metric-sub">peso ganado en ceba</div></div>' +
-      '<div class="metric-card"><div class="metric-label">Consumo actual (CA ' + fmtF(ca,2) + ')</div><div class="metric-value">' + fmt(consActual) + ' kg</div><div class="metric-sub">alimento total del ciclo</div></div>' +
-      '<div class="metric-card blue"><div class="metric-label">Consumo objetivo (CA ' + fmtF(caObj,2) + ')</div><div class="metric-value">' + fmt(consObj) + ' kg</div><div class="metric-sub">con la CA meta</div></div>' +
-      '<div class="metric-card ' + (ahorroKg >= 0 ? 'save' : 'warn') + '"><div class="metric-label">Ahorro real en alimento</div><div class="metric-value">' + fmt(Math.abs(ahorroKg)) + ' kg</div><div class="metric-sub">' + fmtD(Math.abs(ahorroD)) + ' por ciclo</div></div>' +
-      '<div class="metric-card green"><div class="metric-label">Valor del ciclo en juego</div><div class="metric-value">' + fmtD(Math.abs(ahorroD)) + '</div><div class="metric-sub">ahorro real alcanzable</div></div>';
-
-    document.getElementById('c-insight').innerHTML = ahorroKg > 0
-      ? 'Mejorar de CA <strong>' + fmtF(ca,2) + '</strong> a <strong>' + fmtF(caObj,2) + '</strong> en <strong>' + fmt(cerdos) + ' cerdos</strong> de <strong>' + fmtF(gan,0) + ' kg de ganancia</strong> significa <strong>' + fmt(ahorroKg) + ' kg menos de alimento</strong>, equivalente a <strong>' + fmtD(ahorroD) + '</strong> por ciclo. Cada 0.01 de CA vale <strong>' + fmtD(cerdos * gan * 0.01 * precio) + '</strong>.'
-      : 'La CA objetivo es mayor que la actual. Ajusta la meta para que sea inferior a la CA registrada.';
-
-    // Tabla progresiva: parte en CA actual, baja de 0.05 en 0.05 hasta caObj - 0.10
-    var stepsC = [];
-    var caStartC = Math.round(ca * 100) / 100;
-    var caEndC   = Math.max(1.80, Math.round((Math.min(caObj, ca) - 0.10) * 100) / 100);
-    for (var vc = caStartC; vc >= caEndC - 0.001; vc = Math.round((vc - 0.05) * 100) / 100) {
-      stepsC.push(Math.round(vc * 100) / 100);
-    }
-    var caObjRC = Math.round(caObj * 100) / 100;
-    if (!stepsC.some(function(s){ return Math.abs(s - caObjRC) < 0.001; })) stepsC.push(caObjRC);
-    stepsC.sort(function(a,b){ return b - a; });
-
-    var rows2 = '';
-    stepsC.forEach(function(v) {
-      var cons      = cerdos * gan * v;
-      var dKg       = consActual - cons;
-      var dD        = dKg * precio;
-      var ckgC      = precio * v;
-      var puntosC   = Math.round((ca - v) * 100);
-      var isCur     = Math.abs(v - ca) < 0.001;
-      var isTgt     = Math.abs(v - caObjRC) < 0.001;
-      var cls       = isCur ? 'row-current' : isTgt ? 'row-target' : '';
-      var puntosStr = isCur ? '—' : puntosC + (puntosC === 1 ? ' pto' : ' ptos');
-      var dKgStr2   = isCur ? '—' : '<span class="' + (dKg > 0 ? 'td-save' : 'td-cost') + '">+' + fmt(dKg) + ' kg</span>';
-      var dDStr2    = isCur ? '—' : '<span class="' + (dD  > 0 ? 'td-save' : 'td-cost') + '">' + fmtD(dD) + '</span>';
-      rows2 += '<tr class="' + cls + '"><td>' + fmtF(v,2) + '</td><td>' + puntosStr + '</td><td>' + fmt(cons) + ' kg</td><td>' + dKgStr2 + '</td><td>' + dDStr2 + '</td><td>' + fmtD(ckgC) + '</td></tr>';
-    });
-    document.getElementById('c-tabla').innerHTML = rows2;
-
-  } else if (sp === 'ponedora') {
-    var aves    = parseFloat(document.getElementById('n-aves').value)       || 0;
-    var sems    = parseFloat(document.getElementById('n-semanas').value)    || 0;
-    var hd      = parseFloat(document.getElementById('n-hd').value)         || 0;
-    var hdObj   = parseFloat(document.getElementById('n-hd-obj').value)     || 0;
-    var cons    = parseFloat(document.getElementById('n-consumo').value)    || 0;
-    var consObj = parseFloat(document.getElementById('n-consumo-obj').value)|| 0;
-    var precio  = parseFloat(document.getElementById('n-precio').value)     || 0;
-
-    var dias        = sems * 7;
-    var huevosAct   = aves * dias * (hd / 100);
-    var huevosObj   = aves * dias * (hdObj / 100);
-    var alimAct     = aves * dias * cons / 1000;
-    var alimObj     = aves * dias * consObj / 1000;
-    var kgHuevoAct  = huevosAct > 0 ? alimAct / huevosAct : 0;
-    var kgHuevoObj  = huevosObj > 0 ? alimObj / huevosObj : 0;
-
-    benchBar('n-bench', hd, 92, 80, '%HD ' + fmtF(hd,1) + '%');
-
-    lastN = { aves, dias, hd, hdObj, cons, consObj, precio, huevosAct, huevosObj, alimAct, alimObj, kgHuevoAct, kgHuevoObj };
-    renderPonedora(lastN);
-  }
-}
-
-function renderPonedora(d) {
-  if (!d.kgHuevoAct && d.kgHuevoAct !== 0) return;
-  var mult      = unitMult();
-  var label     = unitLabel();
-  var kgUAct    = d.kgHuevoAct * mult;
-  var kgUObj    = d.kgHuevoObj * mult;
-  var costUAct  = kgUAct * d.precio;
-  var costUObj  = kgUObj * d.precio;
-  var ahorroKg  = (kgUAct - kgUObj) * d.huevosObj / mult;
-  var ahorroD   = (costUAct - costUObj) * (d.huevosObj / mult);
-  var masHuevos = d.huevosObj - d.huevosAct;
-
-  var mc = document.getElementById('n-metrics');
-  mc.innerHTML =
-    '<div class="metric-card"><div class="metric-label">Huevos actuales (%HD ' + fmtF(d.hd,1) + '%)</div><div class="metric-value">' + fmt(d.huevosAct) + '</div><div class="metric-sub">período completo</div></div>' +
-    '<div class="metric-card blue"><div class="metric-label">Huevos objetivo (%HD ' + fmtF(d.hdObj,1) + '%)</div><div class="metric-value">' + fmt(d.huevosObj) + '</div><div class="metric-sub">+' + fmt(masHuevos) + ' huevos más</div></div>' +
-    '<div class="metric-card"><div class="metric-label">kg alim. / ' + label + ' — actual</div><div class="metric-value">' + fmtF(kgUAct,3) + ' kg</div><div class="metric-sub">' + fmtD(costUAct) + ' / ' + label + '</div></div>' +
-    '<div class="metric-card blue"><div class="metric-label">kg alim. / ' + label + ' — objetivo</div><div class="metric-value">' + fmtF(kgUObj,3) + ' kg</div><div class="metric-sub">' + fmtD(costUObj) + ' / ' + label + '</div></div>' +
-    '<div class="metric-card ' + (ahorroD >= 0 ? 'save' : 'warn') + '"><div class="metric-label">Ahorro en costo / ' + label + '</div><div class="metric-value">' + fmtD(Math.abs(costUAct - costUObj)) + '</div><div class="metric-sub">por cada ' + label + '</div></div>' +
-    '<div class="metric-card green"><div class="metric-label">Ahorro total del período</div><div class="metric-value">' + fmtD(Math.abs(ahorroD)) + '</div><div class="metric-sub">solo en alimento</div></div>';
-
-  document.getElementById('n-insight').innerHTML = ahorroD > 0
-    ? 'Pasar de <strong>%HD ' + fmtF(d.hd,1) + '%</strong> a <strong>%HD ' + fmtF(d.hdObj,1) + '%</strong> y reducir consumo de <strong>' + fmtF(d.cons,0) + 'g</strong> a <strong>' + fmtF(d.consObj,0) + 'g/ave/día</strong> produce <strong>' + fmt(masHuevos) + ' huevos adicionales</strong> y reduce el costo por ' + label + ' de <strong>' + fmtD(costUAct) + '</strong> a <strong>' + fmtD(costUObj) + '</strong>, generando un ahorro total de <strong>' + fmtD(Math.abs(ahorroD)) + '</strong> en el período.'
-    : 'Ajusta los objetivos de %HD y consumo para que sean mejores que los valores actuales.';
-
-  var hdBase = d.hd;
-  var steps  = [-8,-6,-4,-2,0,2,4,6,8];
-  var rows   = '';
-  steps.forEach(function(delta) {
-    var hd2     = hdBase + delta;
-    if (hd2 <= 0 || hd2 > 100) return;
-    var huevos2 = d.aves * d.dias * (hd2 / 100);
-    var alim2   = d.aves * d.dias * d.consObj / 1000;
-    var kgH2    = huevos2 > 0 ? alim2 / huevos2 : 0;
-    var kgU2    = kgH2 * mult;
-    var costU2  = kgU2 * d.precio;
-    var varCost = costU2 - (d.kgHuevoAct * mult * d.precio);
-    var isCur   = delta === 0;
-    var isTgt   = Math.abs(hd2 - d.hdObj) < 0.1;
-    var cls     = isCur ? 'row-current' : isTgt ? 'row-target' : '';
-    var varStr  = isCur ? '—' : '<span class="' + (varCost < 0 ? 'td-save' : 'td-cost') + '">' + fmtDelta(varCost) + '</span>';
-    rows += '<tr class="' + cls + '"><td>' + fmtF(hd2,1) + '%</td><td>' + fmt(huevos2) + '</td><td>' + fmtF(kgU2,3) + ' kg</td><td>' + fmtD(costU2) + '</td><td>' + varStr + '</td></tr>';
+function calcPollo(){
+  var aves=parseFloat(document.getElementById('p-aves').value)||0;
+  var peso=parseFloat(document.getElementById('p-peso').value)||0;
+  var ca=parseFloat(document.getElementById('p-ca').value)||0;
+  var caObj=parseFloat(document.getElementById('p-ca-obj').value)||0;
+  var precio=parseFloat(document.getElementById('p-precio').value)||0;
+  var consAct=aves*peso*ca,consObj=aves*peso*caObj,aKg=consAct-consObj,aD=aKg*precio;
+  benchBar('p-bench',ca,1.75,2.10,'CA '+fmtF(ca,2));
+  document.getElementById('p-metrics').innerHTML=
+    '<div class="mc"><div class="ml">Consumo actual CA '+fmtF(ca,2)+'</div><div class="mv">'+fmt(consAct)+' kg</div><div class="ms">alimento total ciclo</div></div>'+
+    '<div class="mc blu"><div class="ml">Consumo objetivo CA '+fmtF(caObj,2)+'</div><div class="mv">'+fmt(consObj)+' kg</div><div class="ms">con la CA meta</div></div>'+
+    '<div class="mc '+(aKg>=0?'sav':'red')+'"><div class="ml">Ahorro real en alimento</div><div class="mv">'+fmt(Math.abs(aKg))+' kg</div><div class="ms">'+fmtD(Math.abs(aD))+' por ciclo</div></div>'+
+    '<div class="mc grn"><div class="ml">Valor del ciclo en juego</div><div class="mv">'+fmtD(Math.abs(aD))+'</div><div class="ms">ahorro real alcanzable</div></div>';
+  document.getElementById('p-insight').innerHTML=aKg>0
+    ?'Pasar de CA <strong>'+fmtF(ca,2)+'</strong> a <strong>'+fmtF(caObj,2)+'</strong> en <strong>'+fmt(aves)+' aves</strong> significa consumir <strong>'+fmt(aKg)+' kg menos de alimento</strong> por ciclo — equivalente a <strong>'+fmtD(aD)+'</strong>. Cada punto (0.01) de mejora vale <strong>'+fmtD(aves*peso*0.01*precio)+'</strong>.'
+    :'<span style="color:var(--r600)">La CA objetivo debe ser menor que la CA actual para mostrar el ahorro.</span>';
+  var steps=[],caR=Math.round(ca*100)/100,coR=Math.round(caObj*100)/100;
+  var caE=Math.max(1.40,Math.round((Math.min(caObj,ca)-0.08)*100)/100);
+  for(var v=caR;v>=caE-0.001;v=Math.round((v-0.02)*100)/100)steps.push(Math.round(v*100)/100);
+  if(!steps.some(function(s){return Math.abs(s-coR)<0.001;}))steps.push(coR);
+  steps.sort(function(a,b){return b-a;});
+  var rows='';
+  steps.forEach(function(v){
+    var cons=aves*peso*v,dKg=consAct-cons,dD=dKg*precio,ckg=precio*v;
+    var pts=Math.round((ca-v)*100);
+    var isCur=Math.abs(v-caR)<0.001,isTgt=Math.abs(v-coR)<0.001;
+    var cls=isCur?'rc':isTgt?'rt':'';
+    var pStr=isCur?'—':pts+(pts===1?' pto':' ptos');
+    var kStr=isCur?'—':'<span class="'+(dKg>0?'ts':'tc')+'">+'+fmt(dKg)+' kg</span>';
+    var dStr=isCur?'—':'<span class="'+(dD>0?'ts':'tc')+'">'+fmtD(dD)+'</span>';
+    rows+='<tr class="'+cls+'"><td>'+fmtF(v,2)+'</td><td>'+pStr+'</td><td>'+fmt(cons)+' kg</td><td>'+kStr+'</td><td>'+dStr+'</td><td>'+fmtD(ckg)+'</td></tr>';
   });
-  document.getElementById('n-tabla').innerHTML = rows;
+  document.getElementById('p-tabla').innerHTML=rows;
 }
 
+function calcCerdo(){
+  var cerdos=parseFloat(document.getElementById('c-cerdos').value)||0;
+  var ent=parseFloat(document.getElementById('c-entrada').value)||0;
+  var sal=parseFloat(document.getElementById('c-salida').value)||0;
+  var ca=parseFloat(document.getElementById('c-ca').value)||0;
+  var caObj=parseFloat(document.getElementById('c-ca-obj').value)||0;
+  var precio=parseFloat(document.getElementById('c-precio').value)||0;
+  var gan=sal-ent,consAct=cerdos*gan*ca,consObj=cerdos*gan*caObj,aKg=consAct-consObj,aD=aKg*precio;
+  benchBar('c-bench',ca,2.30,2.90,'CA '+fmtF(ca,2));
+  document.getElementById('c-metrics').innerHTML=
+    '<div class="mc"><div class="ml">Ganancia / animal</div><div class="mv">'+fmtF(gan,1)+' kg</div><div class="ms">peso ganado en ceba</div></div>'+
+    '<div class="mc"><div class="ml">Consumo actual CA '+fmtF(ca,2)+'</div><div class="mv">'+fmt(consAct)+' kg</div><div class="ms">alimento total ciclo</div></div>'+
+    '<div class="mc blu"><div class="ml">Consumo objetivo CA '+fmtF(caObj,2)+'</div><div class="mv">'+fmt(consObj)+' kg</div><div class="ms">con la CA meta</div></div>'+
+    '<div class="mc '+(aKg>=0?'sav':'red')+'"><div class="ml">Ahorro real en alimento</div><div class="mv">'+fmt(Math.abs(aKg))+' kg</div><div class="ms">'+fmtD(Math.abs(aD))+' por ciclo</div></div>'+
+    '<div class="mc grn"><div class="ml">Valor del ciclo en juego</div><div class="mv">'+fmtD(Math.abs(aD))+'</div><div class="ms">ahorro real alcanzable</div></div>';
+  document.getElementById('c-insight').innerHTML=aKg>0
+    ?'Mejorar de CA <strong>'+fmtF(ca,2)+'</strong> a <strong>'+fmtF(caObj,2)+'</strong> en <strong>'+fmt(cerdos)+' cerdos</strong> con <strong>'+fmtF(gan,0)+' kg de ganancia</strong> representa <strong>'+fmt(aKg)+' kg menos de alimento</strong>, equivalente a <strong>'+fmtD(aD)+'</strong>. Cada 0.01 de CA vale <strong>'+fmtD(cerdos*gan*0.01*precio)+'</strong>.'
+    :'<span style="color:var(--r600)">La CA objetivo debe ser menor que la CA actual.</span>';
+  var steps=[],caR=Math.round(ca*100)/100,coR=Math.round(caObj*100)/100;
+  var caE=Math.max(1.80,Math.round((Math.min(caObj,ca)-0.15)*100)/100);
+  for(var v=caR;v>=caE-0.001;v=Math.round((v-0.05)*100)/100)steps.push(Math.round(v*100)/100);
+  if(!steps.some(function(s){return Math.abs(s-coR)<0.001;}))steps.push(coR);
+  steps.sort(function(a,b){return b-a;});
+  var rows='';
+  steps.forEach(function(v){
+    var cons=cerdos*gan*v,dKg=consAct-cons,dD=dKg*precio,ckg=precio*v;
+    var pts=Math.round((ca-v)*100);
+    var isCur=Math.abs(v-caR)<0.001,isTgt=Math.abs(v-coR)<0.001;
+    var cls=isCur?'rc':isTgt?'rt':'';
+    var pStr=isCur?'—':pts+(pts===1?' pto':' ptos');
+    var kStr=isCur?'—':'<span class="'+(dKg>0?'ts':'tc')+'">+'+fmt(dKg)+' kg</span>';
+    var dStr=isCur?'—':'<span class="'+(dD>0?'ts':'tc')+'">'+fmtD(dD)+'</span>';
+    rows+='<tr class="'+cls+'"><td>'+fmtF(v,2)+'</td><td>'+pStr+'</td><td>'+fmt(cons)+' kg</td><td>'+kStr+'</td><td>'+dStr+'</td><td>'+fmtD(ckg)+'</td></tr>';
+  });
+  document.getElementById('c-tabla').innerHTML=rows;
+}
+
+function calcPonedora(){
+  var aves=parseFloat(document.getElementById('n-aves').value)||0;
+  var semana=parseFloat(document.getElementById('n-semana').value)||35;
+  var hdReal=parseFloat(document.getElementById('n-hd').value)||0;
+  var cReal=parseFloat(document.getElementById('n-consumo').value)||0;
+  var precio=parseFloat(document.getElementById('n-precio').value)||0;
+  var pHuevo=parseFloat(document.getElementById('n-phuevo').value)||0;
+  var std=interpolar(currentGen,semana);
+  document.getElementById('n-sem-lbl').textContent=semana;
+  document.getElementById('n-std-hd').textContent=fmtF(std.hd,1)+'%';
+  document.getElementById('n-std-cons').textContent=fmtF(std.consumo,0)+' g';
+  document.getElementById('n-std-peso').textContent=fmtF(std.pesoH,1)+' g';
+  var dHD=hdReal-std.hd,dCons=cReal-std.consumo;
+  var semHD=dHD>=-1?'ok':dHD>=-4?'warn':'bad';
+  var semCons=Math.abs(dCons)<=2?'ok':Math.abs(dCons)<=5?'warn':'bad';
+  document.getElementById('n-semaphore').innerHTML=
+    '<div class="sem-item '+semHD+'"><div class="sem-label"><span class="sem-dot"></span>%HD postura</div><div class="sem-val">'+fmtF(hdReal,1)+'% real vs. '+fmtF(std.hd,1)+'% estandar</div><div class="sem-std">'+(dHD>=0?'+':'')+fmtF(dHD,1)+' puntos vs. guia genetica</div></div>'+
+    '<div class="sem-item '+semCons+'"><div class="sem-label"><span class="sem-dot"></span>Consumo ave/dia</div><div class="sem-val">'+fmtF(cReal,0)+'g real vs. '+fmtF(std.consumo,0)+'g estandar</div><div class="sem-std">'+(dCons>=0?'+':'')+fmtF(dCons,1)+'g vs. guia genetica</div></div>';
+  benchBar('n-bench',hdReal,std.hd,std.hd-12,'%HD '+fmtF(hdReal,1)+'%',true);
+  var em=parseFloat(document.getElementById('n-em').value)||0;
+  var pc=parseFloat(document.getElementById('n-pc').value)||0;
+  var metcis=parseFloat(document.getElementById('n-metcis').value)||0;
+  var caMin=parseFloat(document.getElementById('n-ca').value)||0;
+  var pd=parseFloat(document.getElementById('n-pd').value)||0;
+  var na=parseFloat(document.getElementById('n-na').value)||0;
+  var reqEM=semana<=40?2850:semana<=60?2800:2750;
+  var reqPC=semana<=30?18:semana<=50?17:16;
+  var reqMC=semana<=40?0.70:semana<=60?0.67:0.65;
+  var reqCa=semana<=40?3.9:semana<=60?4.0:4.1;
+  var reqPd=0.38,reqNa=0.17;
+  function semN(v,r,t){var d=v-r;if(Math.abs(d)<=t)return 'ok';if(Math.abs(d)<=t*2.5)return 'warn';return 'bad';}
+  var nits=[
+    {lab:'Energia (EM)',val:em,req:reqEM,unit:'kcal/kg',tol:50,st:semN(em,reqEM,50)},
+    {lab:'Proteina cruda',val:pc,req:reqPC,unit:'%',tol:0.5,st:semN(pc,reqPC,0.5)},
+    {lab:'Met + Cis',val:metcis,req:reqMC,unit:'g/ave/d',tol:0.03,st:semN(metcis,reqMC,0.03)},
+    {lab:'Calcio (Ca)',val:caMin,req:reqCa,unit:'g/ave/d',tol:0.2,st:semN(caMin,reqCa,0.2)},
+    {lab:'Fosforo (Pd)',val:pd,req:reqPd,unit:'g/ave/d',tol:0.03,st:semN(pd,reqPd,0.03)},
+    {lab:'Sodio (Na)',val:na,req:reqNa,unit:'%',tol:0.02,st:semN(na,reqNa,0.02)}
+  ];
+  var semNut='',defCount=0,warnCount=0;
+  nits.forEach(function(n){
+    if(n.st==='bad')defCount++;if(n.st==='warn')warnCount++;
+    var d=n.val-n.req;
+    semNut+='<div class="sem-item '+n.st+'"><div class="sem-label"><span class="sem-dot"></span>'+n.lab+'</div><div class="sem-val">'+fmtF(n.val,n.unit==='kcal/kg'?0:2)+' '+n.unit+'</div><div class="sem-std">Req: '+fmtF(n.req,n.unit==='kcal/kg'?0:2)+' '+(d>=0?'+':'')+fmtF(d,n.unit==='kcal/kg'?0:2)+'</div></div>';
+  });
+  document.getElementById('n-sem-nutri').innerHTML=semNut;
+  var impactoHD=0;
+  if(em<reqEM-100)impactoHD-=(reqEM-em)/100*0.8;
+  if(pc<reqPC-1)impactoHD-=(reqPC-pc)*0.5;
+  if(metcis<reqMC-0.05)impactoHD-=(reqMC-metcis)/0.05*1.2;
+  if(caMin<reqCa-0.3)impactoHD-=(reqCa-caMin)/0.3*0.7;
+  if(pd<reqPd-0.05)impactoHD-=(reqPd-pd)/0.05*0.4;
+  impactoHD=Math.max(-15,Math.min(0,impactoHD));
+  var hdPot=Math.min(std.hd,hdReal-impactoHD);
+  var hdRec=hdPot-hdReal;
+  var hvRec=aves*7*(hdRec/100);
+  var ingRec=hvRec*pHuevo;
+  document.getElementById('n-metrics-nutri').innerHTML=
+    '<div class="mc"><div class="ml">Deficits nutricionales</div><div class="mv">'+defCount+'</div><div class="ms">nutrientes bajo el requerimiento</div></div>'+
+    '<div class="mc '+(Math.abs(impactoHD)>3?'red':'ora')+'"><div class="ml">Impacto estimado en %HD</div><div class="mv">'+fmtF(impactoHD,1)+' ptos</div><div class="ms">efecto acumulado de deficits</div></div>'+
+    '<div class="mc sav"><div class="ml">%HD recuperable con correccion</div><div class="mv">'+fmtF(Math.abs(hdRec),1)+' ptos</div><div class="ms">mejora potencial en postura</div></div>'+
+    '<div class="mc grn"><div class="ml">Ingreso recuperable / semana</div><div class="mv">'+fmtD(ingRec)+'</div><div class="ms">'+fmt(Math.abs(hvRec))+' huevos adicionales</div></div>';
+  document.getElementById('n-insight-nutri').innerHTML=defCount===0
+    ?'El perfil nutricional esta dentro de los rangos requeridos para la semana '+semana+'. La brecha en %HD tiene origen en factores de manejo, sanidad o ambiente — no en la dieta.'
+    :'Se detectaron <strong>'+defCount+' deficit(s) nutricional(es)</strong> que podrian estar generando una caida estimada de <strong>'+fmtF(Math.abs(impactoHD),1)+' puntos de %HD</strong>. Corregir la dieta podria recuperar hasta <strong>'+fmtD(ingRec)+'</strong> en ingresos por semana.';
+  lastN={aves:aves,semana:semana,hdReal:hdReal,cReal:cReal,precio:precio,pHuevo:pHuevo,std:std,gen:currentGen};
+  renderPonedora(lastN);
+}
+
+function renderPonedora(d){
+  if(!d.std)return;
+  var mult=unitMult(),label=unitLabel(),dias=7;
+  var hvReal=d.aves*dias*(d.hdReal/100);
+  var hvStd=d.aves*dias*(d.std.hd/100);
+  var alReal=d.aves*dias*d.cReal/1000;
+  var alStd=d.aves*dias*d.std.consumo/1000;
+  var kgHReal=hvReal>0?alReal/hvReal:0;
+  var kgHStd=hvStd>0?alStd/hvStd:0;
+  var kgUReal=kgHReal*mult,kgUStd=kgHStd*mult;
+  var costUReal=kgUReal*d.precio,costUStd=kgUStd*d.precio;
+
+  // Diferencia: POSITIVO = lote supera el estandar, NEGATIVO = lote debajo
+  var diffHv=hvReal-hvStd;
+  var diffIng=diffHv*d.pHuevo;
+  var diffKgU=kgUReal-kgUStd;
+  var supera=diffHv>=0;
+
+  var tarjCentral,tarjIngreso;
+  if(supera){
+    tarjCentral='<div class="mc sav"><div class="ml">Huevos sobre el estandar / semana</div><div class="mv">+'+fmt(diffHv)+'</div><div class="ms">+'+fmtD(diffIng)+' sobre guia genetica</div></div>';
+    tarjIngreso='<div class="mc grn"><div class="ml">Excedente vs. guia genetica</div><div class="mv">'+fmtD(diffIng)+'</div><div class="ms">lote supera el estandar</div></div>';
+  } else {
+    tarjCentral='<div class="mc red"><div class="ml">Huevos bajo el estandar / semana</div><div class="mv">'+fmt(Math.abs(diffHv))+'</div><div class="ms">'+fmtD(Math.abs(diffIng))+' ingreso no capturado</div></div>';
+    tarjIngreso='<div class="mc red"><div class="ml">Ingreso no capturado / semana</div><div class="mv">'+fmtD(Math.abs(diffIng))+'</div><div class="ms">vs. potencial genetico</div></div>';
+  }
+
+  var tarjCosto='<div class="mc '+(diffKgU<=0?'sav':'ora')+'"><div class="ml">Eficiencia alim. / '+label+' vs. estandar</div><div class="mv">'+(diffKgU<=0?'-':'+')+''+fmtF(Math.abs(diffKgU),3)+' kg</div><div class="ms">'+(diffKgU<=0?'Mas eficiente: '+fmtD(Math.abs(costUReal-costUStd))+' menos':'Menos eficiente: '+fmtD(Math.abs(costUReal-costUStd))+' mas')+' / '+label+'</div></div>';
+
+  document.getElementById('n-metrics-prod').innerHTML=
+    '<div class="mc"><div class="ml">Huevos reales / semana</div><div class="mv">'+fmt(hvReal)+'</div><div class="ms">%HD '+fmtF(d.hdReal,1)+'% real</div></div>'+
+    '<div class="mc blu"><div class="ml">Huevos estandar genetico</div><div class="mv">'+fmt(hvStd)+'</div><div class="ms">%HD '+fmtF(d.std.hd,1)+'% guia '+CURVAS[d.gen].nombre+'</div></div>'+
+    tarjCentral+
+    '<div class="mc"><div class="ml">kg alim. / '+label+' real</div><div class="mv">'+fmtF(kgUReal,3)+' kg</div><div class="ms">'+fmtD(costUReal)+' / '+label+'</div></div>'+
+    '<div class="mc blu"><div class="ml">kg alim. / '+label+' estandar</div><div class="mv">'+fmtF(kgUStd,3)+' kg</div><div class="ms">'+fmtD(costUStd)+' / '+label+'</div></div>'+
+    tarjIngreso;
+
+  var insight;
+  if(supera){
+    insight='Con <strong>'+CURVAS[d.gen].nombre+'</strong> en semana <strong>'+d.semana+'</strong>, el estandar genetico es <strong>%HD '+fmtF(d.std.hd,1)+'%</strong>. Tu lote alcanza <strong>'+fmtF(d.hdReal,1)+'%</strong> — <span class="ts"><strong>supera el estandar en '+fmtF(Math.abs(d.hdReal-d.std.hd),1)+' puntos</strong></span>, produciendo <strong>+'+fmt(diffHv)+' huevos adicionales/semana</strong> sobre la guia genetica y un excedente de <strong>'+fmtD(diffIng)+'</strong>. '+(diffKgU<=0?'El costo por '+label+' es <span class="ts">mas eficiente que el estandar</span>.':'El mayor consumo acompana la mayor produccion — costo por '+label+': '+fmtD(costUReal)+' vs. '+fmtD(costUStd)+' del estandar.');
+  } else {
+    insight='Con <strong>'+CURVAS[d.gen].nombre+'</strong> en semana <strong>'+d.semana+'</strong>, el estandar genetico es <strong>%HD '+fmtF(d.std.hd,1)+'%</strong>. Tu lote esta en <strong>'+fmtF(d.hdReal,1)+'%</strong> — <span class="tc"><strong>brecha de '+fmtF(Math.abs(d.hdReal-d.std.hd),1)+' puntos</strong></span> que representa <strong>'+fmt(Math.abs(diffHv))+' huevos/semana</strong> bajo el potencial genetico y <strong>'+fmtD(Math.abs(diffIng))+'</strong> de ingreso no capturado. Costo real por '+label+': <strong>'+fmtD(costUReal)+'</strong> vs. <strong>'+fmtD(costUStd)+'</strong> del estandar.';
+  }
+  document.getElementById('n-insight-prod').innerHTML=insight;
+
+  var semBase=Math.round(d.semana),semanas=[];
+  for(var s=Math.max(17,semBase-6);s<=Math.min(80,semBase+6);s+=2)semanas.push(s);
+  if(!semanas.includes(semBase))semanas.push(semBase);
+  semanas.sort(function(a,b){return a-b;});
+  var rows='';
+  semanas.forEach(function(s){
+    var sv=interpolar(d.gen,s);
+    var hvS=d.aves*7*(sv.hd/100);
+    var alS=d.aves*7*sv.consumo/1000;
+    var kgHS=hvS>0?alS/hvS:0,kgUS=kgHS*mult,costS=kgUS*d.precio;
+    var isCur=s===semBase;
+    var hdRStr,brStr,dhStr,diStr;
+    if(isCur){
+      var dH=hvReal-hvS,dI=dH*d.pHuevo;
+      var clsB=d.hdReal>=sv.hd?'ts':'tc',clsD=dH>=0?'ts':'tc';
+      hdRStr='<strong>'+fmtF(d.hdReal,1)+'%</strong>';
+      brStr='<span class="'+clsB+'">'+(d.hdReal>=sv.hd?'+':'')+fmtF(d.hdReal-sv.hd,1)+' ptos</span>';
+      dhStr='<span class="'+clsD+'">'+(dH>=0?'+':'')+fmt(dH)+'</span>';
+      diStr='<span class="'+clsD+'">'+(dI>=0?'+':'')+fmtD(dI)+'</span>';
+    } else {hdRStr='--';brStr='--';dhStr='--';diStr='--';}
+    rows+='<tr class="'+(isCur?'rc':'')+'"><td>'+s+'</td><td>'+fmtF(sv.hd,1)+'%</td><td>'+hdRStr+'</td><td>'+brStr+'</td><td>'+dhStr+'</td><td>'+diStr+'</td><td>'+fmtF(kgUS,3)+' kg</td><td>'+fmtD(costS)+'</td></tr>';
+  });
+  document.getElementById('n-tabla').innerHTML=rows;
+}
+
+function calc(sp){
+  if(sp==='pollo')calcPollo();
+  else if(sp==='cerdo')calcCerdo();
+  else if(sp==='ponedora')calcPonedora();
+}
 calc('pollo');
 </script>
 </body>
