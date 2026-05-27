@@ -7,383 +7,119 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --green-950: #0B2419;
-    --green-900: #0F3524;
-    --green-800: #155230;
-    --green-700: #1B6E3E;
-    --green-600: #228B4E;
-    --green-500: #2EA661;
-    --green-400: #4DC47D;
-    --green-300: #7DD9A0;
-    --green-200: #B0EBCA;
-    --green-100: #DFFAEB;
+    --green-900: #0F3524; --green-800: #155230; --green-700: #1B6E3E;
+    --green-600: #228B4E; --green-500: #2EA661; --green-400: #4DC47D;
+    --green-300: #7DD9A0; --green-200: #B0EBCA; --green-100: #DFFAEB;
     --green-50:  #F2FDF7;
-    --gold-600:  #C89B2A;
-    --gold-400:  #E5B945;
-    --gold-200:  #F5DFA0;
-    --gold-100:  #FBF2D4;
-    --red-500:   #D94F4F;
-    --red-100:   #FDEAEA;
-    --gray-900:  #1A1D1B;
-    --gray-700:  #3A3E3C;
-    --gray-500:  #6B7169;
-    --gray-300:  #B8BDB9;
-    --gray-100:  #ECEEED;
-    --gray-50:   #F6F7F6;
+    --gold-400:  #E5B945; --gold-200: #F5DFA0; --gold-100: #FBF2D4;
+    --blue-900:  #0D2B4A; --blue-600: #1A6DA0; --blue-400: #4A9FD4;
+    --blue-200:  #A8D4EE; --blue-100: #D6EDF9; --blue-50:  #EEF7FD;
+    --gray-900:  #1A1D1B; --gray-700: #3A3E3C; --gray-500: #6B7169;
+    --gray-300:  #B8BDB9; --gray-100: #ECEEED; --gray-50:  #F6F7F6;
     --white:     #FFFFFF;
     --font-main: 'DM Sans', sans-serif;
     --font-mono: 'DM Mono', monospace;
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
-    --radius-xl: 24px;
+    --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
     --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
   }
+  body { font-family: var(--font-main); background: var(--gray-50); color: var(--gray-900); min-height: 100vh; line-height: 1.6; }
 
-  body {
-    font-family: var(--font-main);
-    background: var(--gray-50);
-    color: var(--gray-900);
-    min-height: 100vh;
-    line-height: 1.6;
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: var(--green-900);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--green-800);
-  }
-  .header-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-  }
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .logo-mark {
-    width: 32px;
-    height: 32px;
-    background: var(--green-500);
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  /* HEADER */
+  header { background: var(--green-900); padding: 0 2rem; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--green-800); }
+  .header-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo-mark { width: 32px; height: 32px; background: var(--green-500); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
   .logo-mark svg { width: 18px; height: 18px; }
-  .logo-text {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--green-200);
-    letter-spacing: 0.03em;
-  }
-  .logo-text span {
-    display: block;
-    font-size: 11px;
-    font-weight: 300;
-    color: var(--green-400);
-    letter-spacing: 0.06em;
-  }
-  .header-badge {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--gold-400);
-    background: rgba(229, 185, 69, 0.12);
-    border: 1px solid rgba(229, 185, 69, 0.25);
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.04em;
-  }
+  .logo-text { font-size: 13px; font-weight: 500; color: var(--green-200); letter-spacing: 0.03em; }
+  .logo-text span { display: block; font-size: 11px; font-weight: 300; color: var(--green-400); letter-spacing: 0.06em; }
+  .header-badge { font-size: 11px; font-weight: 500; color: var(--gold-400); background: rgba(229,185,69,0.12); border: 1px solid rgba(229,185,69,0.25); padding: 4px 12px; border-radius: 20px; letter-spacing: 0.04em; }
 
-  /* ── HERO ── */
-  .hero {
-    background: var(--green-900);
-    padding: 3.5rem 2rem 4rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(46,166,97,0.18) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .hero-eyebrow {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--green-400);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .hero h1 {
-    font-size: clamp(1.8rem, 4vw, 2.6rem);
-    font-weight: 600;
-    color: var(--white);
-    line-height: 1.25;
-    margin-bottom: 1rem;
-    max-width: 620px;
-    margin-inline: auto;
-  }
-  .hero h1 em {
-    font-style: normal;
-    color: var(--green-400);
-  }
-  .hero-sub {
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--green-200);
-    max-width: 480px;
-    margin: 0 auto 2rem;
-    line-height: 1.7;
-  }
-  .species-chips {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .chip {
-    font-size: 12px;
-    font-weight: 400;
-    color: var(--green-300);
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 5px 14px;
-    border-radius: 20px;
-  }
+  /* HERO */
+  .hero { background: var(--green-900); padding: 3.5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 50% 120%, rgba(46,166,97,0.18) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 11px; font-weight: 500; color: var(--green-400); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+  .hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 600; color: var(--white); line-height: 1.25; margin-bottom: 1rem; max-width: 680px; margin-inline: auto; }
+  .hero h1 em { font-style: normal; color: var(--green-400); }
+  .hero-sub { font-size: 15px; font-weight: 300; color: var(--green-200); max-width: 520px; margin: 0 auto 2rem; line-height: 1.7; }
+  .species-chips { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .chip { font-size: 12px; font-weight: 400; color: var(--green-300); background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); padding: 5px 14px; border-radius: 20px; }
 
-  /* ── MAIN ── */
-  main {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2.5rem 1.5rem 4rem;
-  }
+  /* MAIN */
+  main { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
 
-  /* ── TABS ── */
-  .tab-bar {
-    display: flex;
-    gap: 4px;
-    background: var(--white);
-    border: 1px solid var(--gray-100);
-    border-radius: var(--radius-md);
-    padding: 4px;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow-card);
-  }
-  .tab-btn {
-    flex: 1;
-    padding: 10px 16px;
-    border: none;
-    background: transparent;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-main);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--gray-500);
-    cursor: pointer;
-    transition: all 0.18s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .tab-btn .tab-icon { font-size: 18px; }
+  /* TABS */
+  .tab-bar { display: flex; gap: 4px; background: var(--white); border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 4px; margin-bottom: 2rem; box-shadow: var(--shadow-card); }
+  .tab-btn { flex: 1; padding: 10px 12px; border: none; background: transparent; border-radius: var(--radius-sm); font-family: var(--font-main); font-size: 13px; font-weight: 500; color: var(--gray-500); cursor: pointer; transition: all 0.18s ease; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .tab-btn .tab-icon { font-size: 17px; }
   .tab-btn:hover { background: var(--gray-50); color: var(--gray-700); }
-  .tab-btn.active {
-    background: var(--green-900);
-    color: var(--white);
-  }
+  .tab-btn.active { background: var(--green-900); color: var(--white); }
 
-  /* ── CARDS ── */
-  .card {
-    background: var(--white);
-    border: 1px solid var(--gray-100);
-    border-radius: var(--radius-lg);
-    padding: 1.75rem;
-    margin-bottom: 1.25rem;
-    box-shadow: var(--shadow-card);
-  }
-  .card-title {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--gray-500);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .card-title::before {
-    content: '';
-    width: 3px;
-    height: 14px;
-    background: var(--green-500);
-    border-radius: 2px;
-    display: inline-block;
-  }
+  /* CARDS */
+  .card { background: var(--white); border: 1px solid var(--gray-100); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1.25rem; box-shadow: var(--shadow-card); }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--gray-500); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; }
+  .card-title::before { content: ''; width: 3px; height: 14px; background: var(--green-500); border-radius: 2px; display: inline-block; }
 
-  /* ── GRID INPUTS ── */
-  .input-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-  }
-  .field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .field label {
-    font-size: 13px;
-    color: var(--gray-500);
-    font-weight: 400;
-  }
-  .field input {
-    font-family: var(--font-main);
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--gray-900);
-    background: var(--gray-50);
-    border: 1.5px solid var(--gray-100);
-    border-radius: var(--radius-md);
-    padding: 10px 14px;
-    width: 100%;
-    transition: border-color 0.15s;
-    outline: none;
-  }
-  .field input:focus {
-    border-color: var(--green-500);
-    background: var(--white);
-  }
+  /* INPUTS */
+  .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label { font-size: 13px; color: var(--gray-500); font-weight: 400; }
+  .field input { font-family: var(--font-main); font-size: 15px; font-weight: 500; color: var(--gray-900); background: var(--gray-50); border: 1.5px solid var(--gray-100); border-radius: var(--radius-md); padding: 10px 14px; width: 100%; transition: border-color 0.15s; outline: none; }
+  .field input:focus { border-color: var(--green-500); background: var(--white); }
 
-  /* ── METRICS ── */
-  .metrics-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-  }
-  @media (max-width: 600px) { .metrics-grid { grid-template-columns: 1fr; } }
-  .metric-card {
-    background: var(--gray-50);
-    border: 1px solid var(--gray-100);
-    border-radius: var(--radius-md);
-    padding: 1.1rem 1.25rem;
-  }
+  /* METRICS */
+  .metrics-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .metrics-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  @media (max-width: 640px) { .metrics-grid, .metrics-grid-4 { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 400px) { .metrics-grid, .metrics-grid-4 { grid-template-columns: 1fr; } }
+  .metric-card { background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: var(--radius-md); padding: 1.1rem 1.25rem; }
   .metric-card.primary { background: var(--green-900); border-color: var(--green-800); }
-  .metric-label {
-    font-size: 12px;
-    color: var(--gray-500);
-    margin-bottom: 6px;
-    line-height: 1.4;
-  }
+  .metric-card.secondary { background: var(--blue-50); border-color: var(--blue-100); }
+  .metric-label { font-size: 12px; color: var(--gray-500); margin-bottom: 6px; line-height: 1.4; }
   .metric-card.primary .metric-label { color: var(--green-300); }
-  .metric-value {
-    font-family: var(--font-mono);
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--gray-900);
-    line-height: 1;
-  }
-  .metric-card.primary .metric-value { color: var(--green-400); font-size: 26px; }
-  .metric-sub {
-    font-size: 11px;
-    color: var(--gray-300);
-    margin-top: 4px;
-  }
+  .metric-card.secondary .metric-label { color: var(--blue-600); }
+  .metric-value { font-family: var(--font-mono); font-size: 20px; font-weight: 500; color: var(--gray-900); line-height: 1; }
+  .metric-card.primary .metric-value { color: var(--green-400); font-size: 24px; }
+  .metric-card.secondary .metric-value { color: var(--blue-600); font-size: 18px; }
+  .metric-sub { font-size: 11px; color: var(--gray-300); margin-top: 4px; }
   .metric-card.primary .metric-sub { color: var(--green-600); }
+  .metric-card.secondary .metric-sub { color: var(--blue-400); }
 
-  /* ── TABLE ── */
+  /* TABLE */
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  thead th {
-    text-align: left;
-    padding: 10px 14px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--gray-500);
-    letter-spacing: 0.04em;
-    border-bottom: 1px solid var(--gray-100);
-  }
-  tbody td {
-    padding: 11px 14px;
-    color: var(--gray-700);
-    border-bottom: 1px solid var(--gray-100);
-    font-family: var(--font-mono);
-    font-size: 13px;
-  }
+  thead th { text-align: left; padding: 10px 14px; font-size: 12px; font-weight: 500; color: var(--gray-500); letter-spacing: 0.04em; border-bottom: 1px solid var(--gray-100); }
+  tbody td { padding: 11px 14px; color: var(--gray-700); border-bottom: 1px solid var(--gray-100); font-family: var(--font-mono); font-size: 13px; }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr:hover td { background: var(--gray-50); }
-  tbody tr.highlight td {
-    background: var(--green-50);
-    color: var(--green-800);
-    font-weight: 500;
-  }
-  tbody tr.highlight td:first-child::after {
-    content: ' ← actual';
-    font-size: 10px;
-    color: var(--green-500);
-    font-family: var(--font-main);
-  }
+  tbody tr.highlight td { background: var(--green-50); color: var(--green-800); font-weight: 500; }
+  tbody tr.highlight td:first-child::after { content: ' ← actual'; font-size: 10px; color: var(--green-500); font-family: var(--font-main); }
 
-  /* ── INSIGHT ── */
-  .insight-box {
-    background: var(--green-50);
-    border: 1px solid var(--green-200);
-    border-radius: var(--radius-md);
-    padding: 1.1rem 1.25rem;
-    font-size: 14px;
-    color: var(--green-900);
-    line-height: 1.7;
-    margin-top: 1.25rem;
-  }
+  /* INSIGHT */
+  .insight-box { background: var(--green-50); border: 1px solid var(--green-200); border-radius: var(--radius-md); padding: 1.1rem 1.25rem; font-size: 14px; color: var(--green-900); line-height: 1.7; margin-top: 1.25rem; }
   .insight-box strong { color: var(--green-700); }
+  .insight-box.blue { background: var(--blue-50); border-color: var(--blue-200); color: var(--blue-900); }
+  .insight-box.blue strong { color: var(--blue-600); }
 
-  /* ── FORMULA BOX ── */
-  .formula-box {
-    background: var(--gray-900);
-    border-radius: var(--radius-md);
-    padding: 1rem 1.25rem;
-    margin-top: 1.25rem;
-  }
+  /* FORMULA */
+  .formula-box { background: var(--gray-900); border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-top: 1.25rem; }
   .formula-title { font-size: 11px; color: var(--gray-300); letter-spacing: 0.08em; margin-bottom: 8px; text-transform: uppercase; }
-  .formula-text {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    color: var(--green-400);
-    line-height: 1.9;
-  }
+  .formula-text { font-family: var(--font-mono); font-size: 12.5px; color: var(--green-400); line-height: 2; }
   .formula-text span { color: var(--gray-300); }
 
-  /* ── SECTION HIDDEN ── */
+  /* SECTION */
   .section { display: none; }
   .section.active { display: block; }
-
-  /* ── DIVIDER ── */
   .divider { border: none; border-top: 1px solid var(--gray-100); margin: 1.5rem 0; }
 
-  /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 2rem;
-    font-size: 12px;
-    color: var(--gray-300);
-    border-top: 1px solid var(--gray-100);
-  }
+  /* UNIT SELECTOR */
+  .unit-selector { display: flex; gap: 6px; margin-bottom: 1.25rem; flex-wrap: wrap; }
+  .unit-btn { padding: 6px 16px; border-radius: 20px; border: 1.5px solid var(--gray-100); background: var(--gray-50); font-family: var(--font-main); font-size: 13px; font-weight: 500; color: var(--gray-500); cursor: pointer; transition: all 0.15s; }
+  .unit-btn:hover { border-color: var(--green-300); color: var(--green-700); }
+  .unit-btn.active { background: var(--green-900); border-color: var(--green-900); color: var(--white); }
+
+  /* FOOTER */
+  footer { text-align: center; padding: 2rem; font-size: 12px; color: var(--gray-300); border-top: 1px solid var(--gray-100); }
   footer strong { color: var(--gray-500); }
 </style>
 </head>
@@ -398,10 +134,7 @@
           <path d="M9 7V11M7 9H11" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </div>
-      <div class="logo-text">
-        Programa CTC
-        <span>Análisis técnico-económico</span>
-      </div>
+      <div class="logo-text">Programa CTC <span>Análisis técnico-económico</span></div>
     </div>
     <div class="header-badge">Módulo 1 — Fundamentos</div>
   </div>
@@ -409,13 +142,12 @@
 
 <div class="hero">
   <div class="hero-eyebrow">Herramienta de análisis</div>
-  <h1>Calculadora del costo de un<br><em>punto de conversión</em></h1>
-  <p class="hero-sub">Cuantifica en dinero real el impacto de cada punto de conversión alimenticia en tu ciclo productivo.</p>
+  <h1>Calculadora del costo de <em>conversión alimenticia</em></h1>
+  <p class="hero-sub">Cuantifica en dinero real el impacto de cada punto de conversión en tu ciclo productivo. Pollos, cerdos y ponedoras.</p>
   <div class="species-chips">
-    <span class="chip">Pollos de engorde</span>
-    <span class="chip">Cerdos en ceba</span>
-    <span class="chip">Sitio 3 — porcinos</span>
-    <span class="chip">Módulo 1 CTC</span>
+    <span class="chip">🐔 Pollos de engorde</span>
+    <span class="chip">🐷 Cerdos en ceba</span>
+    <span class="chip">🥚 Gallinas ponedoras</span>
   </div>
 </div>
 
@@ -428,32 +160,21 @@
     <button class="tab-btn" onclick="switchTab('cerdo', this)">
       <span class="tab-icon">🐷</span> Cerdos en ceba
     </button>
+    <button class="tab-btn" onclick="switchTab('ponedora', this)">
+      <span class="tab-icon">🥚</span> Gallinas ponedoras
+    </button>
   </div>
 
   <!-- ══ POLLOS ══ -->
   <div class="section active" id="sec-pollo">
-
     <div class="card">
       <div class="card-title">Datos del lote</div>
       <div class="input-grid">
-        <div class="field">
-          <label>Aves alojadas</label>
-          <input type="number" id="p-aves" value="20000" min="1" oninput="calc('pollo')">
-        </div>
-        <div class="field">
-          <label>Peso promedio al sacrificio (kg)</label>
-          <input type="number" id="p-peso" value="2.50" min="0.1" step="0.05" oninput="calc('pollo')">
-        </div>
-        <div class="field">
-          <label>Conversión alimenticia actual (CA)</label>
-          <input type="number" id="p-ca" value="1.92" min="1.00" step="0.01" oninput="calc('pollo')">
-        </div>
-        <div class="field">
-          <label>Precio del alimento ($ / kg)</label>
-          <input type="number" id="p-precio" value="0.48" min="0.01" step="0.01" oninput="calc('pollo')">
-        </div>
+        <div class="field"><label>Aves alojadas</label><input type="number" id="p-aves" value="20000" min="1" oninput="calc('pollo')"></div>
+        <div class="field"><label>Peso promedio al sacrificio (kg)</label><input type="number" id="p-peso" value="2.50" min="0.1" step="0.05" oninput="calc('pollo')"></div>
+        <div class="field"><label>Conversión alimenticia actual (CA)</label><input type="number" id="p-ca" value="1.92" min="1.00" step="0.01" oninput="calc('pollo')"></div>
+        <div class="field"><label>Precio del alimento ($ / kg)</label><input type="number" id="p-precio" value="0.48" min="0.01" step="0.01" oninput="calc('pollo')"></div>
       </div>
-
       <div class="formula-box">
         <div class="formula-title">Fórmula aplicada</div>
         <div class="formula-text">
@@ -463,77 +184,32 @@
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">Resultado del ciclo</div>
       <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-label">Consumo total de alimento</div>
-          <div class="metric-value" id="p-consumo">—</div>
-          <div class="metric-sub">kg en el ciclo</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Alimento ahorrado por 1 punto</div>
-          <div class="metric-value" id="p-ahorro-kg">—</div>
-          <div class="metric-sub">kg por cada 0.01 de CA</div>
-        </div>
-        <div class="metric-card primary">
-          <div class="metric-label">Costo de 1 punto de conversión</div>
-          <div class="metric-value" id="p-costo-punto">—</div>
-          <div class="metric-sub">valor real por ciclo</div>
-        </div>
+        <div class="metric-card"><div class="metric-label">Consumo total de alimento</div><div class="metric-value" id="p-consumo">—</div><div class="metric-sub">kg en el ciclo</div></div>
+        <div class="metric-card"><div class="metric-label">Alimento ahorrado por 1 punto</div><div class="metric-value" id="p-ahorro-kg">—</div><div class="metric-sub">kg por cada 0.01 de CA</div></div>
+        <div class="metric-card primary"><div class="metric-label">Costo de 1 punto de conversión</div><div class="metric-value" id="p-costo-punto">—</div><div class="metric-sub">valor real por ciclo</div></div>
       </div>
-
       <div class="insight-box" id="p-insight"></div>
     </div>
-
     <div class="card">
       <div class="card-title">Tabla de sensibilidad — impacto acumulado</div>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>CA objetivo</th>
-              <th>Puntos de mejora</th>
-              <th>Alimento ahorrado</th>
-              <th>Ahorro total</th>
-            </tr>
-          </thead>
-          <tbody id="p-tabla"></tbody>
-        </table>
-      </div>
+      <div class="table-wrap"><table><thead><tr><th>CA objetivo</th><th>Puntos de mejora</th><th>Alimento ahorrado</th><th>Ahorro total</th></tr></thead><tbody id="p-tabla"></tbody></table></div>
     </div>
-
   </div>
 
   <!-- ══ CERDOS ══ -->
   <div class="section" id="sec-cerdo">
-
     <div class="card">
       <div class="card-title">Datos del lote</div>
       <div class="input-grid">
-        <div class="field">
-          <label>Cerdos en ceba</label>
-          <input type="number" id="c-cerdos" value="500" min="1" oninput="calc('cerdo')">
-        </div>
-        <div class="field">
-          <label>Peso entrada sitio 3 (kg)</label>
-          <input type="number" id="c-entrada" value="25" min="1" step="0.5" oninput="calc('cerdo')">
-        </div>
-        <div class="field">
-          <label>Peso de salida / mercado (kg)</label>
-          <input type="number" id="c-salida" value="105" min="1" step="0.5" oninput="calc('cerdo')">
-        </div>
-        <div class="field">
-          <label>Conversión alimenticia actual (CA)</label>
-          <input type="number" id="c-ca" value="2.65" min="1" step="0.01" oninput="calc('cerdo')">
-        </div>
-        <div class="field">
-          <label>Precio del alimento ($ / kg)</label>
-          <input type="number" id="c-precio" value="0.52" min="0.01" step="0.01" oninput="calc('cerdo')">
-        </div>
+        <div class="field"><label>Cerdos en ceba</label><input type="number" id="c-cerdos" value="500" min="1" oninput="calc('cerdo')"></div>
+        <div class="field"><label>Peso entrada sitio 3 (kg)</label><input type="number" id="c-entrada" value="25" min="1" step="0.5" oninput="calc('cerdo')"></div>
+        <div class="field"><label>Peso de salida / mercado (kg)</label><input type="number" id="c-salida" value="105" min="1" step="0.5" oninput="calc('cerdo')"></div>
+        <div class="field"><label>Conversión alimenticia actual (CA)</label><input type="number" id="c-ca" value="2.65" min="1" step="0.01" oninput="calc('cerdo')"></div>
+        <div class="field"><label>Precio del alimento ($ / kg)</label><input type="number" id="c-precio" value="0.52" min="0.01" step="0.01" oninput="calc('cerdo')"></div>
       </div>
-
       <div class="formula-box">
         <div class="formula-title">Fórmula aplicada</div>
         <div class="formula-text">
@@ -543,47 +219,69 @@
         </div>
       </div>
     </div>
-
     <div class="card">
       <div class="card-title">Resultado del ciclo</div>
       <div class="metrics-grid">
-        <div class="metric-card">
-          <div class="metric-label">Consumo total de alimento</div>
-          <div class="metric-value" id="c-consumo">—</div>
-          <div class="metric-sub">kg en el ciclo</div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-label">Alimento ahorrado por 1 punto</div>
-          <div class="metric-value" id="c-ahorro-kg">—</div>
-          <div class="metric-sub">kg por cada 0.01 de CA</div>
-        </div>
-        <div class="metric-card primary">
-          <div class="metric-label">Costo de 1 punto de conversión</div>
-          <div class="metric-value" id="c-costo-punto">—</div>
-          <div class="metric-sub">valor real por ciclo</div>
+        <div class="metric-card"><div class="metric-label">Consumo total de alimento</div><div class="metric-value" id="c-consumo">—</div><div class="metric-sub">kg en el ciclo</div></div>
+        <div class="metric-card"><div class="metric-label">Alimento ahorrado por 1 punto</div><div class="metric-value" id="c-ahorro-kg">—</div><div class="metric-sub">kg por cada 0.01 de CA</div></div>
+        <div class="metric-card primary"><div class="metric-label">Costo de 1 punto de conversión</div><div class="metric-value" id="c-costo-punto">—</div><div class="metric-sub">valor real por ciclo</div></div>
+      </div>
+      <div class="insight-box" id="c-insight"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">Tabla de sensibilidad — impacto acumulado</div>
+      <div class="table-wrap"><table><thead><tr><th>CA objetivo</th><th>Puntos de mejora</th><th>Alimento ahorrado</th><th>Ahorro total</th></tr></thead><tbody id="c-tabla"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ══ PONEDORAS ══ -->
+  <div class="section" id="sec-ponedora">
+    <div class="card">
+      <div class="card-title">Datos del lote</div>
+      <div class="input-grid">
+        <div class="field"><label>Aves en producción</label><input type="number" id="n-aves" value="10000" min="1" oninput="calc('ponedora')"></div>
+        <div class="field"><label>Semanas en producción</label><input type="number" id="n-semanas" value="52" min="1" oninput="calc('ponedora')"></div>
+        <div class="field"><label>% Postura promedio (%HD)</label><input type="number" id="n-hd" value="88" min="1" max="100" step="0.5" oninput="calc('ponedora')"></div>
+        <div class="field"><label>Consumo alimento ave/día (g)</label><input type="number" id="n-consumo" value="115" min="50" step="1" oninput="calc('ponedora')"></div>
+        <div class="field"><label>Precio del alimento ($ / kg)</label><input type="number" id="n-precio" value="0.48" min="0.01" step="0.01" oninput="calc('ponedora')"></div>
+      </div>
+      <div class="formula-box">
+        <div class="formula-title">Fórmulas aplicadas</div>
+        <div class="formula-text">
+          Huevos producidos <span>=</span> Aves × Días × (%HD / 100)<br>
+          Alimento total (kg) <span>=</span> Aves × Días × Consumo g ÷ 1000<br>
+          kg alimento / huevo <span>=</span> Alimento total ÷ Huevos<br>
+          kg alimento / docena <span>=</span> kg/huevo × 12<br>
+          kg alimento / 30 uds <span>=</span> kg/huevo × 30
         </div>
       </div>
-
-      <div class="insight-box" id="c-insight"></div>
     </div>
 
     <div class="card">
-      <div class="card-title">Tabla de sensibilidad — impacto acumulado</div>
+      <div class="card-title">Unidad de análisis</div>
+      <div class="unit-selector">
+        <button class="unit-btn active" onclick="setUnit('huevo', this)">Por huevo</button>
+        <button class="unit-btn" onclick="setUnit('docena', this)">Por docena (12)</button>
+        <button class="unit-btn" onclick="setUnit('treinta', this)">Por 30 huevos</button>
+      </div>
+      <div class="metrics-grid-4">
+        <div class="metric-card"><div class="metric-label">Huevos producidos</div><div class="metric-value" id="n-huevos-total">—</div><div class="metric-sub">en el período</div></div>
+        <div class="metric-card"><div class="metric-label">Alimento total consumido</div><div class="metric-value" id="n-alimento-total">—</div><div class="metric-sub">kg en el período</div></div>
+        <div class="metric-card secondary"><div class="metric-label">kg alimento por unidad</div><div class="metric-value" id="n-kg-unidad">—</div><div class="metric-sub" id="n-kg-sub">kg / huevo</div></div>
+        <div class="metric-card primary"><div class="metric-label">Costo alimento por unidad</div><div class="metric-value" id="n-costo-unidad">—</div><div class="metric-sub" id="n-costo-sub">$ / huevo</div></div>
+      </div>
+      <div class="insight-box blue" id="n-insight"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tabla de sensibilidad — impacto del % de postura (%HD)</div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>CA objetivo</th>
-              <th>Puntos de mejora</th>
-              <th>Alimento ahorrado</th>
-              <th>Ahorro total</th>
-            </tr>
-          </thead>
-          <tbody id="c-tabla"></tbody>
+          <thead><tr><th>%HD</th><th>Huevos producidos</th><th>kg alim. / unidad</th><th>Costo / unidad</th><th>Variación vs. actual</th></tr></thead>
+          <tbody id="n-tabla"></tbody>
         </table>
       </div>
     </div>
-
   </div>
 
 </main>
@@ -594,12 +292,12 @@
 </footer>
 
 <script>
-  function fmt(n) {
-    return Math.round(n).toLocaleString('es');
-  }
-  function fmtD(n) {
-    return '$ ' + n.toLocaleString('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
+  var currentUnit = 'huevo';
+  var lastPonedoraData = {};
+
+  function fmt(n)  { return Math.round(n).toLocaleString('es'); }
+  function fmtD(n) { return '$ ' + n.toLocaleString('es', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function fmtN(n, d) { return n.toLocaleString('es', { minimumFractionDigits: d, maximumFractionDigits: d }); }
 
   function switchTab(sp, btn) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -609,76 +307,143 @@
     calc(sp);
   }
 
+  function setUnit(unit, btn) {
+    currentUnit = unit;
+    document.querySelectorAll('.unit-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderPonedora(lastPonedoraData);
+  }
+
+  function unitLabel() {
+    if (currentUnit === 'huevo')    return 'huevo';
+    if (currentUnit === 'docena')   return 'docena (12 uds)';
+    return '30 huevos';
+  }
+
+  function unitMultiplier() {
+    if (currentUnit === 'huevo')  return 1;
+    if (currentUnit === 'docena') return 12;
+    return 30;
+  }
+
+  function renderPonedora(d) {
+    if (!d.kgHuevo) return;
+    var mult  = unitMultiplier();
+    var label = unitLabel();
+    var kgU   = d.kgHuevo * mult;
+    var costU = kgU * d.precio;
+
+    document.getElementById('n-huevos-total').textContent   = fmt(d.huevos);
+    document.getElementById('n-alimento-total').textContent = fmt(d.alimento) + ' kg';
+    document.getElementById('n-kg-unidad').textContent      = fmtN(kgU, 3);
+    document.getElementById('n-kg-sub').textContent         = 'kg / ' + label;
+    document.getElementById('n-costo-unidad').textContent   = fmtD(costU);
+    document.getElementById('n-costo-sub').textContent      = '$ / ' + label;
+
+    document.getElementById('n-insight').innerHTML =
+      'Con <strong>' + fmt(d.aves) + ' aves</strong> al <strong>' + fmtN(d.hd, 1) + '%HD</strong>, cada ' + label +
+      ' cuesta <strong>' + fmtD(costU) + '</strong> solo en alimento. ' +
+      'Si el %HD sube 2 puntos (a ' + fmtN(d.hd + 2, 1) + '%), el costo baja a <strong>' +
+      fmtD((d.alimento / (d.aves * d.dias * (d.hd + 2) / 100)) * mult * d.precio) +
+      '</strong> por ' + label + '.';
+
+    var hdBase = d.hd;
+    var steps  = [-8, -6, -4, -2, 0, 2, 4, 6, 8];
+    var rows   = '';
+    steps.forEach(function(delta) {
+      var hd2      = hdBase + delta;
+      if (hd2 <= 0 || hd2 > 100) return;
+      var huevos2  = d.aves * d.dias * (hd2 / 100);
+      var kgH2     = d.alimento / huevos2;
+      var kgU2     = kgH2 * mult;
+      var costU2   = kgU2 * d.precio;
+      var variacion = costU2 - costU;
+      var isCur    = delta === 0;
+      var varStr   = delta === 0 ? '—' : (variacion > 0 ? '+' : '') + fmtD(variacion);
+      rows += '<tr' + (isCur ? ' class="highlight"' : '') + '>' +
+        '<td>' + fmtN(hd2, 1) + '%</td>' +
+        '<td>' + fmt(huevos2) + '</td>' +
+        '<td>' + fmtN(kgU2, 3) + ' kg</td>' +
+        '<td>' + fmtD(costU2) + '</td>' +
+        '<td>' + varStr + '</td>' +
+        '</tr>';
+    });
+    document.getElementById('n-tabla').innerHTML = rows;
+  }
+
   function calc(sp) {
     if (sp === 'pollo') {
-      const aves   = parseFloat(document.getElementById('p-aves').value)   || 0;
-      const peso   = parseFloat(document.getElementById('p-peso').value)   || 0;
-      const ca     = parseFloat(document.getElementById('p-ca').value)     || 0;
-      const precio = parseFloat(document.getElementById('p-precio').value) || 0;
+      var aves   = parseFloat(document.getElementById('p-aves').value)   || 0;
+      var peso   = parseFloat(document.getElementById('p-peso').value)   || 0;
+      var ca     = parseFloat(document.getElementById('p-ca').value)     || 0;
+      var precio = parseFloat(document.getElementById('p-precio').value) || 0;
 
-      const consumo    = aves * peso * ca;
-      const ahorroKg   = aves * peso * 0.01;
-      const costoPunto = ahorroKg * precio;
+      var consumo    = aves * peso * ca;
+      var ahorroKg   = aves * peso * 0.01;
+      var costoPunto = ahorroKg * precio;
 
-      document.getElementById('p-consumo').textContent    = fmt(consumo) + ' kg';
-      document.getElementById('p-ahorro-kg').textContent  = fmt(ahorroKg) + ' kg';
+      document.getElementById('p-consumo').textContent     = fmt(consumo) + ' kg';
+      document.getElementById('p-ahorro-kg').textContent   = fmt(ahorroKg) + ' kg';
       document.getElementById('p-costo-punto').textContent = fmtD(costoPunto);
 
-      const steps = [0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30];
-      let rows = '';
-      steps.forEach(d => {
-        const obj    = (ca - d).toFixed(2);
-        const puntos = Math.round(d / 0.01);
-        const kg     = fmt(aves * peso * d);
-        const ahorro = fmtD(aves * peso * d * precio);
-        const isCur  = d === 0.01;
-        rows += `<tr${isCur ? ' class="highlight"' : ''}>
-          <td>${obj}</td>
-          <td>${puntos} ${puntos === 1 ? 'punto' : 'puntos'}</td>
-          <td>${kg} kg</td>
-          <td>${ahorro}</td>
-        </tr>`;
+      var steps = [0.01, 0.02, 0.05, 0.10, 0.15, 0.20, 0.30];
+      var rows  = '';
+      steps.forEach(function(d) {
+        var obj    = (ca - d).toFixed(2);
+        var puntos = Math.round(d / 0.01);
+        var kg     = fmt(aves * peso * d);
+        var ahorro = fmtD(aves * peso * d * precio);
+        var isCur  = d === 0.01;
+        rows += '<tr' + (isCur ? ' class="highlight"' : '') + '><td>' + obj + '</td><td>' + puntos + (puntos === 1 ? ' punto' : ' puntos') + '</td><td>' + kg + ' kg</td><td>' + ahorro + '</td></tr>';
       });
       document.getElementById('p-tabla').innerHTML = rows;
-
       document.getElementById('p-insight').innerHTML =
-        `En este lote de <strong>${fmt(aves)} aves</strong>, cada punto de conversión equivale a <strong>${fmtD(costoPunto)}</strong> en alimento. Cualquier inversión en manejo, sanidad o nutrición que cueste menos que esa cifra y mejore al menos un punto de CA <strong>se paga sola y genera ahorro neto por ciclo</strong>.`;
+        'En este lote de <strong>' + fmt(aves) + ' aves</strong>, cada punto de conversión equivale a <strong>' + fmtD(costoPunto) + '</strong> en alimento. Cualquier inversión en manejo, sanidad o nutrición que cueste menos que esa cifra y mejore al menos un punto de CA <strong>se paga sola y genera ahorro neto por ciclo</strong>.';
 
-    } else {
-      const cerdos = parseFloat(document.getElementById('c-cerdos').value)  || 0;
-      const ent    = parseFloat(document.getElementById('c-entrada').value)  || 0;
-      const sal    = parseFloat(document.getElementById('c-salida').value)   || 0;
-      const ca     = parseFloat(document.getElementById('c-ca').value)      || 0;
-      const precio = parseFloat(document.getElementById('c-precio').value)  || 0;
+    } else if (sp === 'cerdo') {
+      var cerdos = parseFloat(document.getElementById('c-cerdos').value)  || 0;
+      var ent    = parseFloat(document.getElementById('c-entrada').value)  || 0;
+      var sal    = parseFloat(document.getElementById('c-salida').value)   || 0;
+      var ca     = parseFloat(document.getElementById('c-ca').value)      || 0;
+      var precio = parseFloat(document.getElementById('c-precio').value)  || 0;
 
-      const gan        = sal - ent;
-      const consumo    = cerdos * gan * ca;
-      const ahorroKg   = cerdos * gan * 0.01;
-      const costoPunto = ahorroKg * precio;
+      var gan        = sal - ent;
+      var consumo    = cerdos * gan * ca;
+      var ahorroKg   = cerdos * gan * 0.01;
+      var costoPunto = ahorroKg * precio;
 
       document.getElementById('c-consumo').textContent     = fmt(consumo) + ' kg';
       document.getElementById('c-ahorro-kg').textContent   = fmt(ahorroKg) + ' kg';
       document.getElementById('c-costo-punto').textContent = fmtD(costoPunto);
 
-      const steps = [0.01, 0.05, 0.10, 0.15, 0.20, 0.25, 0.35];
-      let rows = '';
-      steps.forEach(d => {
-        const obj    = (ca - d).toFixed(2);
-        const puntos = Math.round(d / 0.01);
-        const kg     = fmt(cerdos * gan * d);
-        const ahorro = fmtD(cerdos * gan * d * precio);
-        const isCur  = d === 0.01;
-        rows += `<tr${isCur ? ' class="highlight"' : ''}>
-          <td>${obj}</td>
-          <td>${puntos} ${puntos === 1 ? 'punto' : 'puntos'}</td>
-          <td>${kg} kg</td>
-          <td>${ahorro}</td>
-        </tr>`;
+      var steps = [0.01, 0.05, 0.10, 0.15, 0.20, 0.25, 0.35];
+      var rows  = '';
+      steps.forEach(function(d) {
+        var obj    = (ca - d).toFixed(2);
+        var puntos = Math.round(d / 0.01);
+        var kg     = fmt(cerdos * gan * d);
+        var ahorro = fmtD(cerdos * gan * d * precio);
+        var isCur  = d === 0.01;
+        rows += '<tr' + (isCur ? ' class="highlight"' : '') + '><td>' + obj + '</td><td>' + puntos + (puntos === 1 ? ' punto' : ' puntos') + '</td><td>' + kg + ' kg</td><td>' + ahorro + '</td></tr>';
       });
       document.getElementById('c-tabla').innerHTML = rows;
-
       document.getElementById('c-insight').innerHTML =
-        `Con <strong>${fmt(cerdos)} cerdos</strong> y una ganancia de <strong>${gan.toFixed(1)} kg/animal</strong>, cada punto de conversión vale <strong>${fmtD(costoPunto)}</strong>. Mejorar de CA ${ca.toFixed(2)} a ${(ca - 0.10).toFixed(2)} representa un ahorro de <strong>${fmtD(cerdos * gan * 0.10 * precio)}</strong> por ciclo, solo en alimento.`;
+        'Con <strong>' + fmt(cerdos) + ' cerdos</strong> y una ganancia de <strong>' + gan.toFixed(1) + ' kg/animal</strong>, cada punto de conversión vale <strong>' + fmtD(costoPunto) + '</strong>. Mejorar de CA ' + ca.toFixed(2) + ' a ' + (ca - 0.10).toFixed(2) + ' representa un ahorro de <strong>' + fmtD(cerdos * gan * 0.10 * precio) + '</strong> por ciclo, solo en alimento.';
+
+    } else if (sp === 'ponedora') {
+      var aves   = parseFloat(document.getElementById('n-aves').value)    || 0;
+      var sems   = parseFloat(document.getElementById('n-semanas').value) || 0;
+      var hd     = parseFloat(document.getElementById('n-hd').value)      || 0;
+      var cons   = parseFloat(document.getElementById('n-consumo').value) || 0;
+      var precio = parseFloat(document.getElementById('n-precio').value)  || 0;
+
+      var dias    = sems * 7;
+      var huevos  = aves * dias * (hd / 100);
+      var alimento = aves * dias * cons / 1000;
+      var kgHuevo = huevos > 0 ? alimento / huevos : 0;
+
+      lastPonedoraData = { aves: aves, dias: dias, hd: hd, cons: cons, precio: precio, huevos: huevos, alimento: alimento, kgHuevo: kgHuevo };
+      renderPonedora(lastPonedoraData);
     }
   }
 
